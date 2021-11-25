@@ -5,20 +5,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import './nav.css'
 
 const TopNav = ({ location }) => {
-  const [homebtn, sethomebtn] = useState(true);
-  const [gallerybtn, setgallerybtn] = useState(false);
-  const [artbtn, setartbtn] = useState(false);
-  const [learnbtn, setlearnbtn] = useState(false);
-
-  // const [path, setPath] = useState('/')
-
-
-  const homebtnselected = () => {
-    sethomebtn(true)
-    setgallerybtn(false)
-    setartbtn(false)
-    setlearnbtn(false)
-  }
   
   console.log(location.pathname)
 
@@ -31,7 +17,7 @@ const TopNav = ({ location }) => {
       <Navbar collapseOnSelect expand="lg" variant="dark" className='py-3 dark-bg navbar' fixed="top">
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand onClick={() => { homebtnselected(); }} className='primary-text nav-brand '>Project Noise</Navbar.Brand>
+            <Navbar.Brand  className='primary-text nav-brand '>Project Noise</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <div style={{ width: '100%' }}>

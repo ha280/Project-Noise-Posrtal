@@ -37,7 +37,7 @@ const cardInfo = [
       ]
   },
   {
-      "code": "#1254",
+      "code": "#1234",
       "owner": "G22JKaE5nPLT5b613QvjN6SdqpEK6c8noVtGPS99gq3C",
       "src": "https://arweave.net/jEsrUkwT0_5H4fvCbSVUW-9X-QSMXg4piYVBGUA5slU",
       "traits": [
@@ -52,7 +52,7 @@ const cardInfo = [
       ]
   },
   {
-    "code": "#1240",
+    "code": "#1246",
     "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
     "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
     "traits": [
@@ -67,7 +67,7 @@ const cardInfo = [
     ]
 },
 {
-    "code": "#254",
+    "code": "#2540",
     "owner": "G22JKaE5nPLT5b613QvjN6SdqpEK6c8noVtGPS99gq3C",
     "src": "https://arweave.net/jEsrUkwT0_5H4fvCbSVUW-9X-QSMXg4piYVBGUA5slU",
     "traits": [
@@ -166,7 +166,7 @@ const BurnPortal = () => {
 
       </div>
 
-      <div className='section-8 px-3'>
+      <div className='section-8 px-3 sticky'>
         <Row>
           <Col lg={3}></Col>
           <Col lg={6} className='footer pt-1'>

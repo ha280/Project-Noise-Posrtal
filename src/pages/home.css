@@ -15,6 +15,15 @@
   visibility: hidden;
   display: none;
 }
+.outline-divnew{
+  background: linear-gradient(60deg, #0EFFB7, #FF0D0D, #FFFF00) !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-background-clip: text !important;
+
+  font-size: 24px !important;
+  padding: 16px 0 !important;
+  width: 100%;
+}
 
 
 /* new styles */
