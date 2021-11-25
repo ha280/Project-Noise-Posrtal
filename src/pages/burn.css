@@ -1,0 +1,42 @@
+
+  .section-2new{
+    text-align: left;
+    padding: 20px 0px;
+    border: solid 5px transparent;
+    border-image-slice: 1;
+    background-color: #E5E5E5;
+  }
+  .burnbutton{
+    background-image: linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00);
+    display: block;
+    width: 100%;
+    height: 50px;
+  }
+  .section-2 h5{
+    padding-top: 12px;
+    margin: 0;
+  }
+  .section-2new h5{
+    padding-top: 12px;
+    margin: 0;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .section-2 div,.section-2new div{
+    padding-top: 10px;
+  }
+  
+  .section-2 p,.section-2new p{
+    font-size: 18px !important;
+    color: #000000 !important;
+  }
+
+  .section-8{
+    margin-top: -5px;
+  }
+  
+  .footer{
+    padding-top: 10px;
+  }
+
+  

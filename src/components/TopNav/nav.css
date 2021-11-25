@@ -1,0 +1,285 @@
+.navbar{
+  position: sticky;
+}
+
+.collapsing{
+  transition: none !important;
+}
+
+.navbar-toggler{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: none;
+}
+
+.navbar-toggler:active{
+  border: none;
+}
+
+.navbar-toggler-icon{
+  background-image: url('../../assets/hamburger.png') !important;
+}
+
+
+.nav-brand{
+  font-size: 20px;
+  padding: 8px 18px 8px 0px;
+} 
+
+
+.nav-link{
+  padding: 18px 8px 5px 8px;
+  margin-bottom: 18px;
+}
+
+.home-nav{
+  color:rgba(255,255,255,.55);
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-left: 18px !important;
+  margin-right: 18px !important;
+}
+.home-nav:hover {
+  color:#FFFFFF !important;
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-left: 18px !important;
+  margin-right: 18px !important;
+}
+
+.gallery-nav{
+  color:rgba(255,255,255,.55);
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-left: 18px !important;
+  margin-right: 18px !important;
+}
+.gallery-nav:hover {
+  color:#FFFFFF !important;
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-right: 18px !important;
+  margin-left: 18px !important;
+}
+
+
+
+.art-nav{
+  color:rgba(255,255,255,.55);
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-left: 18px !important;
+  margin-right: 18px !important;
+}
+.art-nav:hover {
+  color:#FFFFFF !important;
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-right: 18px !important;
+  margin-left: 18px !important;
+}
+
+.learn-nav{
+  color:rgba(255,255,255,.55);
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-left: 18px !important;
+  margin-right: 18px !important;
+}
+.learn-nav:hover {
+  color:#FFFFFF !important;
+  font-size: 20px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin-right: 18px !important;
+  margin-left: 18px !important;
+}
+
+.active-nav{
+  border-bottom: solid 2px transparent !important;
+  border-image: linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00) !important;
+  border-image-slice: 1 !important;
+}
+.inactive-nav{
+  color: rgba(255,255,255,.55) !important;
+}
+
+.social-media-twitter{
+  padding-top: 20px;
+}
+.social-media-insta{
+  padding-top: 18px;
+}
+.social-media-discord{
+  padding-top: 22px;
+}
+
+
+.twitter{
+  height: 23px;
+  width: 29px;
+  background-image: url('../../assets/twitter.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.twitter:hover{
+  height: 23px;
+  width: 29px;
+  background-image: url('../../assets/twitteractive.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.instagram{
+  height: 28px;
+  width: 28px;
+  background-image: url('../../assets/insta.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
+.instagram:hover{
+  height: 28px;
+  width: 28px;
+  background-image: url('../../assets/instaactive.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+.discord{
+  height: 22px;
+  width: 29px;
+  background-image: url('../../assets/discord.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
+.discord:hover{
+  height: 22px;
+  width: 29px;
+  background-image: url('../../assets/discordactive.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+@media screen and (max-width: 812px) {
+  .navbar{
+    text-align: center;
+  }
+  .nav-brand{
+    padding: 5px 0px 0px 12px;
+  } 
+  .navbar-collapse{
+    height: 100vh;
+    transform: translateY(17%);
+  }
+  .home-nav{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  .home-nav:active{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  .gallery-nav{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  .gallery-nav:active{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  .art-nav{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  .art-nav:active{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  .learn-nav{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  .learn-nav:active{
+    margin-top: 40px;
+    padding: 0;
+    width: max-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 24px;
+  }
+  #wallet-btn{
+    margin: 35px 0;
+    padding: 20px 24px;
+  }
+  .dummyNavCol{
+    display: none;
+    visibility: hidden;
+  }
+}
+

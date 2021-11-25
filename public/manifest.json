@@ -1,0 +1,25 @@
+{
+  "short_name": "Project Noise",
+  "name": "Project Noise",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "banner.png",
+      "type": "image/png",
+      "sizes": "780x460"
+    }
+  ],
+  "start_url": "www.projectnoise.io",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

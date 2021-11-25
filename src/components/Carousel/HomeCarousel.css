@@ -1,0 +1,69 @@
+.homecarousel{
+  height: 664px !important;
+}
+
+.react-multi-carousel-dot-list{
+  visibility: hidden;
+}
+
+.react-multiple-carousel__arrow{
+  background: transparent;
+}
+.react-multiple-carousel__arrow:hover{
+  background: transparent
+}
+
+.left-arrow{
+  opacity: 0.4;
+  width: 15px;
+}
+.left-arrow:hover{
+  opacity: 1;
+}
+.right-arrow{
+  opacity: 0.4;
+  width: 15px;
+}
+.right-arrow:hover{
+  opacity: 1;
+}
+
+.react-multiple-carousel__arrow--left::before {
+  display: none;
+  visibility: hidden;
+}
+
+.react-multiple-carousel__arrow--right::before {
+  display: none;
+  visibility: hidden;
+}
+
+.react-multi-carousel-dot button{
+  border:none;
+  background: #ffffff;
+  opacity: 0.15;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  margin-left: 6px;
+}
+.react-multi-carousel-dot--active button{
+  background: #ffffff !important;
+  opacity: 1 ;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  margin-left: 6px;
+}
+
+
+@media screen and (max-width: 812px) {
+  .homecarousel{
+    height: 564px !important;
+  }
+  .react-multi-carousel-dot-list{
+    visibility: visible;
+    margin-bottom: 100px;
+  }
+
+}

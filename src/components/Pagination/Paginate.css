@@ -1,0 +1,53 @@
+.pagination{
+  margin-bottom: 50px ;
+  display: flex;
+  justify-content: space-between;
+  max-width: 100% !important;
+  /* margin-left: auto !important;
+  margin-right: auto !important; */
+}
+
+
+.page-link{
+  color: #000000;
+  opacity: 0.4;
+  border: none;
+  background: #F2F2F2;
+  padding: 5px;
+}
+
+.page-item:first-child .page-link{
+  opacity: 1;
+  margin-right: 180px;
+}
+.page-item:last-child .page-link{
+  opacity: 1;
+  margin-left: 180px;
+}
+
+.page-link:hover{
+  border: none;
+  color: #000000;
+}
+.page-link:active{
+  border: none;
+  color: #000000;
+}
+
+.page-item.active .page-link{
+  opacity: 1;
+  color: #000000;
+  background: #f2f2f2;
+}
+
+@media screen and (max-width: 812px) {
+
+  .page-item:first-child .page-link{
+    opacity: 1;
+    margin-right: 20px;
+  }
+  .page-item:last-child .page-link{
+    opacity: 1;
+    margin-left: 20px;
+  }
+}
