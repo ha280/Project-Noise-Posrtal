@@ -148,3 +148,7 @@
 .text-1{
   margin-bottom: 13px;
 }
+.submitbutton:disabled,
+.submitbutton[disabled]{
+  background-image: linear-gradient(90deg, #0effb7d2, #ff110dc4,#ffff00cc) !important;
+}

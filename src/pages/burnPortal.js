@@ -98,7 +98,6 @@ const cardInfo = [
 },
 ];
 const BurnPortal = () => {
-  const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
     const [noise,SetNoise] = useState('-');
     const [connect,SetConnect] = useState(true);
@@ -141,11 +140,7 @@ const BurnPortal = () => {
                     <Row className='mr-0'>
                         {cardInfo.map((product, i) => (
                           
-                            <Col key={i} sm={12} lg={4 } style={{ padding: '5px' }} onClick={() => {
-                              setShow(!show);
-                              
-
-                            }}>
+                            <Col key={i} sm={12} lg={4 } style={{ padding: '5px' }}>
                               <SelectCard product={product} onSelect={countfunc}/>
                             </Col>
                           
@@ -171,11 +166,12 @@ const BurnPortal = () => {
           <Col lg={3}></Col>
           <Col lg={6} className='footer pt-1'>
           { connect ?
-                      <div style={{display: "inline-block", width:"100%", padding:"30px 0 20px 0"}}>
-                        <p style={{float: "left",color:"black"}}>{count.length} Noises selected</p>
+                      <div style={{display: "inline-block", width:"100%", padding:"20px 0 10px 0"}}>
+                        <p style={{float: "left",color:"black",marginTop:"10px"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
                           <button  disabled={count.length<6} 
                           onClick={()=>{setFinal(true);}}
+                          className="submitbutton"
                           style={{backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
                           >Burn to Claim Pass!</button>
                           <button style={{padding:"10px",border:"0"}}>Cancel</button>

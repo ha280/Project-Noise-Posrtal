@@ -14,7 +14,7 @@ const TopNav = ({ location }) => {
 
   return (
     <>
-      <Navbar collapseOnSelect expand="lg" variant="dark" className='py-3 dark-bg navbar' fixed="top">
+      <Navbar collapseOnSelect expand="lg" variant="dark" className=' dark-bg navbar' fixed="top">
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand  className='primary-text nav-brand '>Project Noise</Navbar.Brand>
