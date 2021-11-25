@@ -120,7 +120,7 @@ const BurnPortal = () => {
     
   return (
     <>
-      <div className='section-2new'>
+      <div className='section-2new' style={{marginBottom: "100px"}}>
         <Row className='px-3 py-0'>
           <Col lg={3} className='p-0'></Col>
           <Col lg={6} className='p-0'>
