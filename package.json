@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@primenums/solana-nft-tools": "^0.1.1",
     "@solana/wallet-adapter-base": "^0.7.0",
     "@solana/wallet-adapter-material-ui": "^0.13.0",
     "@solana/wallet-adapter-react": "^0.13.1",

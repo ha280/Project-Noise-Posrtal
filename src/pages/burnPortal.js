@@ -1,11 +1,31 @@
-import React, { useState, useRef } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Modal, Button, Row, Col, Overlay,Nav } from 'react-bootstrap';
 import SelectCard from '../components/selectCard/selectCard'
 // import LogoWeb from '../assets/Landingweb
 import './burn.css'
+import allMints from '../mint.json'
+import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { WalletAdapterNetwork, WalletNotConnectedError } from '@solana/wallet-adapter-base';
+import {
+  getPhantomWallet,
+  getSolflareWallet,
+  getSolletWallet,
+} from '@solana/wallet-adapter-wallets';
+import {
+  WalletModalProvider,
+  WalletDisconnectButton,
+  WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
+import NFTs from '@primenums/solana-nft-tools';
+import * as web3 from"@solana/web3.js";
 import web_hero_gif from '../content/Untitled.png';
+
+// Default styles that can be overridden by your app
+require('@solana/wallet-adapter-react-ui/styles.css');
+
 let count = [];
-const cardInfo = [
+let cardInfo = [
   {
       "code": "#1240",
       "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
@@ -100,7 +120,7 @@ const cardInfo = [
 const BurnPortal = () => {
   const [final, setFinal] = useState(false);
     const [noise,SetNoise] = useState('-');
-    const [connect,SetConnect] = useState(true);
+    const [connect,SetConnect] = useState(false);
     
     const countfunc = (product,isSelected) => {
     //   console.log(product);
@@ -116,8 +136,99 @@ const BurnPortal = () => {
       console.log(count);
       
     }
+
+
+
+    const { connection } = useConnection();
+  const { publicKey } = useWallet();
+  const wallet = useWallet();
+  const [value, setValue] = useState({});
+  const [check, setCheck] = useState(false);
+
+  // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
+  const network = WalletAdapterNetwork.Devnet;
+
+  // You can also provide a custom RPC endpoint
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
+  // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
+  // Only the wallets you configure here will be compiled into your application
+  const wallets = useMemo(() => [
+    getPhantomWallet(),
+    getSolletWallet({ network }),
+    getSolflareWallet(),
+  ], [network]);
+
+  useEffect(() => {
+    console.log("here");
+    SetConnect(true);
+    (async () => {
+      if (wallet?.publicKey) {
+        SetConnect(true);
+        console.log("wallet connected here");
+    // Create connection
+        try{
+          const conn = new web3.Connection(
+            web3.clusterApiUrl('mainnet-beta'),
+            'confirmed'
+          );
+
+          // Get all mint tokens (NFTs) from your wallet
+          // const walletAddr = wallet.publicKey.toString();
+          const walletAddr = "5NRKYY5xy7V7HcFXJAbJYbhh4oKixUJmqMq89ZJcdsH6";
+
+          console.log(conn);
+          console.log(walletAddr);
+          let mints = await NFTs.getMintTokensByOwner(conn, walletAddr);
+          console.log('mints', mints);
+
+          let noises = [];
+          //CHECK WITH ALL NFT ADDRESS FROM AN ARRAY & PUT IT IN THE ARRAY
+          for(let i=0;i<mints.length;i++){
+            if(allMints.includes(mints[i])){
+              let cardObj = {};
+              noises.push(mints[i]);
+              fetch('https://api.solscan.io/account?address=' + mints[i])              
+              .then(response => response.json())
+              .then(data => {                
+                  // name of the noise
+                  console.log(data.data.metadata.data.name);
+
+                  //arweave url of the noise metdata
+                  console.log(data.data.metadata.data.uri);
+
+                  fetch(data.data.metadata.data.uri)
+                  .then(response => response.json())
+                  .then(data => {                    
+                    // image url for the noise
+                    console.log(data.image);
+
+                    cardObj = {
+                      "code": data.name,
+                      "owner": "",
+                      "src": data.image,
+                      "traits": data.attributes
+                    }
+                    console.log(cardObj);
+                    cardInfo.push(cardObj);
+                  });                  
+              });
+            }
+          }
+          console.log('noise', cardInfo);
+
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    })();
+  }, [wallet]);
+
     
   return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider >
     <>
       <div className='section-2new' style={{marginBottom: "100px"}}>
         <Row className='px-3 py-0'>
@@ -147,7 +258,9 @@ const BurnPortal = () => {
                         ))}
                       </Row>
                     :
-                    <button className="burnbutton" style={{marginTop:"43px",border:"0"}}>Connect Wallet</button>}
+                    <WalletMultiButton />
+                    // <button className="burnbutton" style={{marginTop:"43px",border:"0"}}>Connect Wallet</button>
+                    }
                     
                 </div>
                 
@@ -203,6 +316,9 @@ On joining the club!</h1>
         </Modal.Body>
       </Modal>
     </>
+    </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
 };
 
