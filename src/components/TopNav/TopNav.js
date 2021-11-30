@@ -2,6 +2,12 @@ import { useState } from 'react'
 import { withRouter } from 'react-router-dom';
 import { Nav, Navbar, Container, Button, Row, Col, NavLink } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import {
+  WalletModalProvider,
+  WalletDisconnectButton,
+  WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+
 import './nav.css'
 
 const TopNav = ({ location }) => {
@@ -24,6 +30,7 @@ const TopNav = ({ location }) => {
             <Navbar.Collapse id="responsive-navbar-nav">
               
               <Nav className='ms-auto'>
+              <WalletMultiButton />
                 {location.pathname === '/mint' ?
                   <Button variant='secondary' className='ml-4 mr-2 btn-outline' id='wallet-btn'>Connect Wallet</Button>
                   :

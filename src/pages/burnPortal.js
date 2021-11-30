@@ -3,125 +3,53 @@ import { Modal, Button, Row, Col, Overlay,Nav } from 'react-bootstrap';
 import SelectCard from '../components/selectCard/selectCard'
 // import LogoWeb from '../assets/Landingweb
 import './burn.css'
-import allMints from '../mint.json'
-import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { WalletAdapterNetwork, WalletNotConnectedError } from '@solana/wallet-adapter-base';
-import {
-  getPhantomWallet,
-  getSolflareWallet,
-  getSolletWallet,
-} from '@solana/wallet-adapter-wallets';
-import {
-  WalletModalProvider,
-  WalletDisconnectButton,
-  WalletMultiButton
-} from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
+import allMints from '../mint-devnet.json'
+import { useWallet } from '@solana/wallet-adapter-react';
 import NFTs from '@primenums/solana-nft-tools';
-import * as web3 from"@solana/web3.js";
+import * as web3 from "@solana/web3.js";
+import { Program, Provider } from "@project-serum/anchor";
+import {
+  TOKEN_PROGRAM_ID,
+  Token,
+  ASSOCIATED_TOKEN_PROGRAM_ID
+} from "@solana/spl-token";
+import * as anchor from "@project-serum/anchor";
+
+import {
+  CandyMachine,
+  awaitTransactionSignatureConfirmation,
+  getCandyMachineState,
+  mintOneToken,  
+} from "../candy-machine";
+
 import web_hero_gif from '../content/Untitled.png';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
 
 let count = [];
-let cardInfo = [
-  {
-      "code": "#1240",
-      "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
-      "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
-      "traits": [
-          {
-              "trait_type": "Color",
-              "value": "Yellow"
-          },
-          {
-              "trait_type": "Type",
-              "value": "Ripple One"
-          }
-      ]
-  },
-  {
-      "code": "#2154",
-      "owner": "G22JKaE5nPLT5b613QvjN6SdqpEK6c8noVtGPS99gq3C",
-      "src": "https://arweave.net/jEsrUkwT0_5H4fvCbSVUW-9X-QSMXg4piYVBGUA5slU",
-      "traits": [
-          {
-              "trait_type": "Color",
-              "value": "White"
-          },
-          {
-              "trait_type": "Type",
-              "value": "Wave Two"
-          }
-      ]
-  },
-  {
-      "code": "#1253",
-      "owner": "G22JKaE5nPLT5b613QvjN6SdqpEK6c8noVtGPS99gq3C",
-      "src": "https://arweave.net/jEsrUkwT0_5H4fvCbSVUW-9X-QSMXg4piYVBGUA5slU",
-      "traits": [
-          {
-              "trait_type": "Color",
-              "value": "White"
-          },
-          {
-              "trait_type": "Type",
-              "value": "Wave Two"
-          }
-      ]
-  },
-  {
-    "code": "#1241",
-    "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
-    "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
-    "traits": [
-        {
-            "trait_type": "Color",
-            "value": "Yellow"
-        },
-        {
-            "trait_type": "Type",
-            "value": "Ripple One"
-        }
-    ]
-},
-{
-    "code": "#254",
-    "owner": "G22JKaE5nPLT5b613QvjN6SdqpEK6c8noVtGPS99gq3C",
-    "src": "https://arweave.net/jEsrUkwT0_5H4fvCbSVUW-9X-QSMXg4piYVBGUA5slU",
-    "traits": [
-        {
-            "trait_type": "Color",
-            "value": "White"
-        },
-        {
-            "trait_type": "Type",
-            "value": "Wave Two"
-        }
-    ]
-},
-{
-    "code": "#1254",
-    "owner": "G22JKaE5nPLT5b613QvjN6SdqpEK6c8noVtGPS99gq3C",
-    "src": "https://arweave.net/jEsrUkwT0_5H4fvCbSVUW-9X-QSMXg4piYVBGUA5slU",
-    "traits": [
-        {
-            "trait_type": "Color",
-            "value": "White"
-        },
-        {
-            "trait_type": "Type",
-            "value": "Wave Two"
-        }
-    ]
-},
-];
-const BurnPortal = () => {
+let noises = [];
+let cardInfo = [{
+  "code": "#1240",
+  "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
+  "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
+  "traits": [
+      {
+          "trait_type": "Color",
+          "value": "Yellow"
+      },
+      {
+          "trait_type": "Type",
+          "value": "Ripple One"
+      }
+  ]
+}];
+const BurnPortal = ({connection}) => {
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
     const [noise,SetNoise] = useState('-');
     const [connect,SetConnect] = useState(false);
+        
     
     const countfunc = (product,isSelected) => {
     //   console.log(product);
@@ -139,83 +67,65 @@ const BurnPortal = () => {
     }
 
 
-
-    const { connection } = useConnection();
-  const { publicKey } = useWallet();
   const wallet = useWallet();
   const [value, setValue] = useState({});
   const [check, setCheck] = useState(false);
+  // const [candyMachine, setCandyMachine] = useState<CandyMachine>();
 
-  // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
-  const network = WalletAdapterNetwork.Devnet;
-
-  // You can also provide a custom RPC endpoint
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-
-  // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
-  // Only the wallets you configure here will be compiled into your application
-  const wallets = useMemo(() => [
-    getPhantomWallet(),
-    getSolletWallet({ network }),
-    getSolflareWallet(),
-  ], [network]);
-
-  useEffect(() => {
-    console.log("here");
-    SetConnect(true);
+  //GET details of the Noise NFTs a wallet holds
+  useEffect(() => {    
     (async () => {
       if (wallet?.publicKey) {
         SetConnect(true);
         console.log("wallet connected here");
-    // Create connection
+        // Create connection
         try{
-          const conn = new web3.Connection(
-            web3.clusterApiUrl('mainnet-beta'),
-            'confirmed'
-          );
-
           // Get all mint tokens (NFTs) from your wallet
-          // const walletAddr = wallet.publicKey.toString();
-          const walletAddr = "5NRKYY5xy7V7HcFXJAbJYbhh4oKixUJmqMq89ZJcdsH6";
-
-          console.log(conn);
+          const walletAddr = wallet.publicKey.toString();
+          
           console.log(walletAddr);
-          let mints = await NFTs.getMintTokensByOwner(conn, walletAddr);
+          console.log("connection", connection);
+          let mints = await NFTs.getMintTokensByOwner(connection, walletAddr);
           console.log('mints', mints);
 
-          let noises = [];
+          noises = [];
+          cardInfo = [];
           //CHECK WITH ALL NFT ADDRESS FROM AN ARRAY & PUT IT IN THE ARRAY
-          for(let i=0;i<mints.length;i++){
-            if(allMints.includes(mints[i])){
+          mints.map((mint, i) => {
+            if(allMints.includes(mint)){
               let cardObj = {};
-              noises.push(mints[i]);
-              fetch('https://api.solscan.io/account?address=' + mints[i])              
+              console.log("new mint", mint);              
+              fetch('https://api-devnet.solscan.io/account?address=' + mint) 
               .then(response => response.json())
-              .then(data => {                
+              .then(data => {                                         
                   // name of the noise
-                  console.log(data.data.metadata.data.name);
+                  // console.log(data.data.metadata.data.name);
 
-                  //arweave url of the noise metdata
-                  console.log(data.data.metadata.data.uri);
+                  // console.log("supply",data.data.tokenInfo.supply);
 
-                  fetch(data.data.metadata.data.uri)
-                  .then(response => response.json())
-                  .then(data => {                    
-                    // image url for the noise
-                    console.log(data.image);
+                  //supply should not be zero
+                  if(data.data.tokenInfo.supply > 0){
+                    noises.push(mint);
+                    fetch(data.data.metadata.data.uri)
+                    .then(response => response.json())
+                    .then(data => {                    
+                      // image url for the noise
+                      // console.log(data);
 
-                    cardObj = {
-                      "code": data.name,
-                      "owner": "",
-                      "src": data.image,
-                      "traits": data.attributes
-                    }
-                    console.log(cardObj);
-                    cardInfo.push(cardObj);
-                  });                  
+                      cardObj = {
+                        "code": data.name,
+                        "owner": "",
+                        "src": data.image,
+                        "traits": data.attributes
+                      }
+                      console.log("cardObj", cardObj);
+                      cardInfo.push(cardObj);
+                    });                  
+                  }                  
               });
             }
-          }
+          });
+          
           console.log('noise', cardInfo);
 
         } catch (error) {
@@ -225,11 +135,107 @@ const BurnPortal = () => {
     })();
   }, [wallet]);
 
+  //burn the NFTs
+  const onBurn = async () => {
+    console.log("burn");
+    try {      
+      if (wallet.connected && wallet.publicKey) {
+
+          let opts = {
+            preflightCommitment: 'recent',
+            commitment: 'recent',
+        };
+        
+        // let mint = new web3.PublicKey("64ZncPDFdEfSbydmDMHtXLmgDjNQ6T1cYz7BSFyMXhZS");
+
+        let provider = new Provider(connection, wallet, opts);
+
+        let txnWithSigs = [];
+        let creatorIdoToken = "";
+        let transaction = "";
+
+        //TODO: replace noises with selected
+        console.log("noises in burn", noises);
+        for(let i=0;i<noises.length;i++){
+          let mint = new web3.PublicKey(noises[i]);  
+
+          console.log("wallet.publicKey", wallet.publicKey.toString());
+          creatorIdoToken = await Token.getAssociatedTokenAddress(
+              ASSOCIATED_TOKEN_PROGRAM_ID,
+              TOKEN_PROGRAM_ID,
+              mint,
+              wallet.publicKey
+          );
+                  
+          console.log("creatorIdoToken", creatorIdoToken.toString());
+
+          transaction = new web3.Transaction().add(
+            Token.createBurnInstruction(
+              TOKEN_PROGRAM_ID,      
+              mint,
+              creatorIdoToken,
+              wallet.publicKey,
+              [],
+              1,
+            ),
+          );
+
+          txnWithSigs.push({
+            tx: transaction,
+            signers: [provider.wallet.payer]
+          })
+        }    
+
+        console.log(txnWithSigs);
+        // let txSigs = await provider.sendAll(txnWithSigs);
+        // console.log("burn: ", txSigs);
+
+        const anchorWallet = {
+          publicKey: wallet.publicKey,
+          signAllTransactions: wallet.signAllTransactions,
+          signTransaction: wallet.signTransaction,
+        };
+  
+        const { candyMachine, goLiveDate, itemsRemaining, itemsAvailable, itemsRedeemed } =
+          await getCandyMachineState(
+            anchorWallet,
+            "G5BXXPsGfYVQHw3k4NZrmMC2UMFRdosyv6JtwciqC1A7",
+            connection
+          );
+
+        //Mint token
+        const [mintTxId, mint] = await mintOneToken(
+          candyMachine,
+          new web3.PublicKey("CuVXnd2GhJ55jDDfpKk1SSWuEyMVmYi5NJevaGEm2Fex"),
+          wallet.publicKey,
+          new web3.PublicKey("5NRKYY5xy7V7HcFXJAbJYbhh4oKixUJmqMq89ZJcdsH6")
+        );
+
+        const status = await awaitTransactionSignatureConfirmation(
+          mintTxId,
+          "30000",
+          connection,
+          "singleGossip",
+          false
+        );
+
+        console.log("mintTxId: ", mintTxId);
+        console.log("mint: ", mint);
+
+        setFinal(true);
+      }
+    } catch (e) {
+      console.log(e);      
+    } finally {
+      
+    }
+  }
     
+
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider >
+    // <ConnectionProvider endpoint={endpoint}>
+    //   <WalletProvider wallets={wallets} autoConnect>
+    //     <WalletModalProvider >
     <>
       <div className='section-2new'>
         <Row className='px-3 py-0'>
@@ -263,7 +269,7 @@ const BurnPortal = () => {
                         ))}
                       </Row>
                     :
-                    <WalletMultiButton />
+                    ""
                     // <button className="burnbutton" style={{marginTop:"43px",border:"0"}}>Connect Wallet</button>
                     }
                     
@@ -287,8 +293,9 @@ const BurnPortal = () => {
                       <div style={{display: "inline-block", width:"100%", padding:"30px 0 20px 0"}}>
                         <p style={{float: "left",color:"black"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
-                          <button  disabled={count.length<6} 
-                          onClick={()=>{setFinal(true);}}
+                          <button  disabled={count.length<1} 
+                          // onClick={()=>{setFinal(true);}}
+                          onClick={onBurn}
                           style={{backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
                           >Burn to Claim Pass!</button>
                           <button style={{padding:"10px",border:"0"}}>Cancel</button>
@@ -320,9 +327,9 @@ On joining the club!</h1>
         </Modal.Body>
       </Modal>
     </>
-    </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    // </WalletModalProvider>
+    //   </WalletProvider>
+    // </ConnectionProvider>
   );
 };
 
