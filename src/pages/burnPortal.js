@@ -103,7 +103,7 @@ const BurnPortal = ({connection}) => {
           noises = [];
           let card = [];
           //CHECK WITH ALL NFT ADDRESS FROM AN ARRAY & PUT IT IN THE ARRAY
-          await mints.map((mint, i) => {
+          mints.map((mint, i) => {
             console.log("cardInfo", cardInfo,i);
             if(allMints.includes(mint)){
               let cardObj = {};
