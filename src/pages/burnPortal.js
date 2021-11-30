@@ -49,8 +49,20 @@ const BurnPortal = ({connection}) => {
   const [final, setFinal] = useState(false);
     const [noise,SetNoise] = useState('-');
     const [connect,SetConnect] = useState(false);
-        
-    
+
+    const [isLoading, setLoading] = useState(false);
+    function simulateNetworkRequest() {
+      return new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+    const handleClick = () => setLoading(true);
+    useEffect(() => {
+      if (isLoading) {
+        simulateNetworkRequest().then(() => {
+          setLoading(false);
+        });
+      }
+    }, [isLoading]);
+
     const countfunc = (product,isSelected) => {
     //   console.log(product);
     //   console.log(isSelected);
@@ -89,12 +101,13 @@ const BurnPortal = ({connection}) => {
           console.log('mints', mints);
 
           noises = [];
-          cardInfo = [];
+          let card = [];
           //CHECK WITH ALL NFT ADDRESS FROM AN ARRAY & PUT IT IN THE ARRAY
-          mints.map((mint, i) => {
+          await mints.map((mint, i) => {
+            console.log("cardInfo", cardInfo,i);
             if(allMints.includes(mint)){
               let cardObj = {};
-              console.log("new mint", mint);              
+              // console.log("new mint", mint);              
               fetch('https://api-devnet.solscan.io/account?address=' + mint) 
               .then(response => response.json())
               .then(data => {                                         
@@ -118,16 +131,16 @@ const BurnPortal = ({connection}) => {
                         "src": data.image,
                         "traits": data.attributes
                       }
-                      console.log("cardObj", cardObj);
-                      cardInfo.push(cardObj);
+                      console.log("cardInfo", cardInfo);
+                      card.push(cardObj);
                     });                  
                   }                  
               });
             }
           });
-          
+          // SetNoise(cardInfo.length); 
+          cardInfo=card;
           console.log('noise', cardInfo);
-
         } catch (error) {
           console.log(error);
         }
@@ -138,6 +151,9 @@ const BurnPortal = ({connection}) => {
   //burn the NFTs
   const onBurn = async () => {
     console.log("burn");
+    if(!isLoading){
+      handleClick();
+    }
     try {      
       if (wallet.connected && wallet.publicKey) {
 
@@ -293,11 +309,11 @@ const BurnPortal = ({connection}) => {
                       <div style={{display: "inline-block", width:"100%", padding:"30px 0 20px 0"}}>
                         <p style={{float: "left",color:"black"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
-                          <button  disabled={count.length<1} 
+                          <button  disabled={count.length<1 || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
                           style={{backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
-                          >Burn to Claim Pass!</button>
+                          >{isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
                           <button style={{padding:"10px",border:"0"}}>Cancel</button>
                         </div>
                       </div>  
