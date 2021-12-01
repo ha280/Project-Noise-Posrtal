@@ -31,6 +31,7 @@ let count = [];
 let noises = [];
 let cardInfo = [{
   "code": "#1240",
+  "mint": "",
   "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
   "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
   "traits": [
@@ -64,7 +65,7 @@ const BurnPortal = ({connection}) => {
     }, [isLoading]);
 
     const countfunc = (product,isSelected) => {
-    //   console.log(product);
+      console.log("count",product);
     //   console.log(isSelected);
       // console.log(count);
       if(isSelected){
@@ -95,49 +96,55 @@ const BurnPortal = ({connection}) => {
           // Get all mint tokens (NFTs) from your wallet
           const walletAddr = wallet.publicKey.toString();
           
-          console.log(walletAddr);
-          console.log("connection", connection);
           let mints = await NFTs.getMintTokensByOwner(connection, walletAddr);
-          console.log('mints', mints);
+          console.log('mints', mints);          
 
           noises = [];
           let card = [];
           //CHECK WITH ALL NFT ADDRESS FROM AN ARRAY & PUT IT IN THE ARRAY
-          mints.map((mint, i) => {
-            console.log("cardInfo", cardInfo,i);
-            if(allMints.includes(mint)){
-              let cardObj = {};
-              // console.log("new mint", mint);              
-              fetch('https://api-devnet.solscan.io/account?address=' + mint) 
-              .then(response => response.json())
-              .then(data => {                                         
-                  // name of the noise
-                  // console.log(data.data.metadata.data.name);
+          for(let i=0;i<mints.length;i++){
+            let mint = mints[i];
+            // console.log("cardInfo", cardInfo,i);
+            if(allMints.includes(mint)){           
+              
+              let myNFT = await NFTs.getNFTByMintAddress(connection, mint);
+              console.log('myNFT', myNFT);
 
-                  // console.log("supply",data.data.tokenInfo.supply);
+              //CHECK IF the user is the current nft owner
+              if(wallet.publicKey.toString() == myNFT.owner){
 
-                  //supply should not be zero
-                  if(data.data.tokenInfo.supply > 0){
-                    noises.push(mint);
-                    fetch(data.data.metadata.data.uri)
-                    .then(response => response.json())
-                    .then(data => {                    
-                      // image url for the noise
-                      // console.log(data);
+                let cardObj = {};
+                // console.log("new mint", mint);              
+                fetch('https://api-devnet.solscan.io/account?address=' + mint) 
+                .then(response => response.json())
+                .then(data => {                                         
+                    // name of the noise
+                    // console.log(data.data.metadata.data.name);
 
-                      cardObj = {
-                        "code": data.name,
-                        "owner": "",
-                        "src": data.image,
-                        "traits": data.attributes
-                      }
-                      console.log("cardInfo", cardInfo);
-                      card.push(cardObj);
-                    });                  
-                  }                  
-              });
+                    //supply should not be zero
+                    if(data.data.tokenInfo.supply > 0){                    
+                      noises.push(mint);
+                      fetch(data.data.metadata.data.uri)
+                      .then(response => response.json())
+                      .then(data => {                    
+                        // image url for the noise
+                        // console.log(data);
+
+                        cardObj = {                          
+                          "code": data.name,
+                          "mint": mint,
+                          "owner": "",
+                          "src": data.image,
+                          "traits": data.attributes
+                        }
+                        // console.log("cardInfo", cardInfo);
+                        card.push(cardObj);
+                      });                  
+                    }                  
+                });
+              }
             }
-          });
+          }
           // SetNoise(cardInfo.length); 
           cardInfo=card;
           console.log('noise', cardInfo);
@@ -161,21 +168,20 @@ const BurnPortal = ({connection}) => {
             preflightCommitment: 'recent',
             commitment: 'recent',
         };
-        
-        // let mint = new web3.PublicKey("64ZncPDFdEfSbydmDMHtXLmgDjNQ6T1cYz7BSFyMXhZS");
 
         let provider = new Provider(connection, wallet, opts);
 
         let txnWithSigs = [];
         let creatorIdoToken = "";
         let transaction = "";
+      
+        console.log("noises in burn", count);
 
-        //TODO: replace noises with selected
-        console.log("noises in burn", noises);
-        for(let i=0;i<noises.length;i++){
-          let mint = new web3.PublicKey(noises[i]);  
+        //TODO: HARSH : change i=0 when your dynamic card display is resolved
+        for(let i=1;i<count.length;i++){
+          let mint = new web3.PublicKey(count[i]);  
 
-          console.log("wallet.publicKey", wallet.publicKey.toString());
+          // console.log("wallet.publicKey", wallet.publicKey.toString());
           creatorIdoToken = await Token.getAssociatedTokenAddress(
               ASSOCIATED_TOKEN_PROGRAM_ID,
               TOKEN_PROGRAM_ID,
@@ -183,8 +189,6 @@ const BurnPortal = ({connection}) => {
               wallet.publicKey
           );
                   
-          console.log("creatorIdoToken", creatorIdoToken.toString());
-
           transaction = new web3.Transaction().add(
             Token.createBurnInstruction(
               TOKEN_PROGRAM_ID,      
@@ -203,8 +207,8 @@ const BurnPortal = ({connection}) => {
         }    
 
         console.log(txnWithSigs);
-        // let txSigs = await provider.sendAll(txnWithSigs);
-        // console.log("burn: ", txSigs);
+        let txSigs = await provider.sendAll(txnWithSigs);
+        console.log("burn: ", txSigs);
 
         const anchorWallet = {
           publicKey: wallet.publicKey,
@@ -242,9 +246,7 @@ const BurnPortal = ({connection}) => {
       }
     } catch (e) {
       console.log(e);      
-    } finally {
-      
-    }
+    } 
   }
     
 
@@ -286,6 +288,7 @@ const BurnPortal = ({connection}) => {
                       </Row>
                     :
                     ""
+                    // <ConnectButton className="burnbutton">Connect Wallet</ConnectButton>
                     // <button className="burnbutton" style={{marginTop:"43px",border:"0"}}>Connect Wallet</button>
                     }
                     
@@ -309,7 +312,7 @@ const BurnPortal = ({connection}) => {
                       <div style={{display: "inline-block", width:"100%", padding:"30px 0 20px 0"}}>
                         <p style={{float: "left",color:"black"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
-                          <button  disabled={count.length<1 || isLoading}
+                          <button  disabled={(count.length <= 5 || count.length > 6) || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
                           style={{backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 

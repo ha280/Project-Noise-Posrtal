@@ -9,7 +9,7 @@ const SelectCard = ({ product,onSelect }) => {
   return (
     
       <div className={show ? 'clickedgallryCard':'gallerycard'} onClick={() => {
-        onSelect(product.code,show);
+        onSelect(product.mint,show);
         setShow(!show);
         
       }}>
