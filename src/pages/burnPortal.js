@@ -5,6 +5,8 @@ import SelectCard from '../components/selectCard/selectCard'
 import './burn.css'
 import allMints from '../mint-devnet.json'
 import { useWallet } from '@solana/wallet-adapter-react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFire,faTimes } from "@fortawesome/free-solid-svg-icons";
 import NFTs from '@primenums/solana-nft-tools';
 import * as web3 from "@solana/web3.js";
 import { Program, Provider } from "@project-serum/anchor";
@@ -322,8 +324,18 @@ const BurnPortal = ({connection}) => {
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
                           style={{backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
-                          >{isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
-                          <button style={{padding:"10px",border:"0"}}>Cancel</button>
+                          >
+                            <FontAwesomeIcon
+                                icon={faFire}
+                                style={{ width: "1rem", margin: "0 1rem" }}
+                            />
+                        {isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
+                          <button style={{padding:"10px",border:"0"}}>
+                          <FontAwesomeIcon
+                                icon={faTimes}
+                                style={{ width: "1rem", margin: "0 1rem" }}
+                            />
+                            Cancel</button>
                         </div>
                       </div>  
                     :
