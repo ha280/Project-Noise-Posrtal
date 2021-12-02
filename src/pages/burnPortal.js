@@ -31,7 +31,7 @@ let count = [];
 let noises = [];
 let cardInfo = [{
   "code": "#1240",
-  "mint": "",
+  "mint": "HDtT4co9qqiG98jQ7ZZ84UGWinmVF4Ads7NkZk6SbfyV",
   "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
   "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
   "traits": [
@@ -50,6 +50,7 @@ const BurnPortal = ({connection}) => {
   const [final, setFinal] = useState(false);
     const [noise,SetNoise] = useState('-');
     const [connect,SetConnect] = useState(false);
+    const [nftInfo, SetNftInfo] = useState(false);
 
     const [isLoading, setLoading] = useState(false);
     function simulateNetworkRequest() {
@@ -108,18 +109,18 @@ const BurnPortal = ({connection}) => {
             if(allMints.includes(mint)){           
               
               let myNFT = await NFTs.getNFTByMintAddress(connection, mint);
-              console.log('myNFT', myNFT);
+              // console.log('myNFT', myNFT);
 
               //CHECK IF the user is the current nft owner
               if(wallet.publicKey.toString() == myNFT.owner){
 
                 let cardObj = {};
-                // console.log("new mint", mint);              
+                // console.log("new mint", mint);                              
                 fetch('https://api-devnet.solscan.io/account?address=' + mint) 
                 .then(response => response.json())
                 .then(data => {                                         
                     // name of the noise
-                    // console.log(data.data.metadata.data.name);
+                    console.log("metadata", data.data.metadata);
 
                     //supply should not be zero
                     if(data.data.tokenInfo.supply > 0){                    
@@ -128,7 +129,7 @@ const BurnPortal = ({connection}) => {
                       .then(response => response.json())
                       .then(data => {                    
                         // image url for the noise
-                        // console.log(data);
+                        console.log("uri ", data);
 
                         cardObj = {                          
                           "code": data.name,
@@ -146,8 +147,9 @@ const BurnPortal = ({connection}) => {
             }
           }
           // SetNoise(cardInfo.length); 
-          cardInfo=card;
-          console.log('noise', cardInfo);
+          // cardInfo=card;
+          SetNftInfo(card);
+          console.log('noise', card);
         } catch (error) {
           console.log(error);
         }
@@ -155,6 +157,9 @@ const BurnPortal = ({connection}) => {
     })();
   }, [wallet]);
 
+  useEffect(() => {   
+      SetNftInfo(cardInfo);
+   },[]);
   //burn the NFTs
   const onBurn = async () => {
     console.log("burn");
@@ -178,7 +183,7 @@ const BurnPortal = ({connection}) => {
         console.log("noises in burn", count);
 
         //TODO: HARSH : change i=0 when your dynamic card display is resolved
-        for(let i=1;i<count.length;i++){
+        for(let i=0;i<count.length;i++){
           let mint = new web3.PublicKey(count[i]);  
 
           // console.log("wallet.publicKey", wallet.publicKey.toString());
@@ -274,7 +279,7 @@ const BurnPortal = ({connection}) => {
                 <div>
                     { connect ?
                     <Row className='mr-0'>
-                        {cardInfo.map((product, i) => (
+                        {nftInfo.map((product, i) => (
                           
                             <Col key={i} sm={12} lg={4 } style={{ padding: '5px' }} onClick={() => {
                               setShow(!show);
