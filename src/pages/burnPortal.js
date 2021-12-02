@@ -146,10 +146,11 @@ const BurnPortal = ({connection}) => {
               }
             }
           }
-          // SetNoise(cardInfo.length); 
+          
           // cardInfo=card;
           SetNftInfo(card);
           console.log('noise', card);
+          SetNoise(SetNftInfo.length); 
         } catch (error) {
           console.log(error);
         }
@@ -260,7 +261,7 @@ const BurnPortal = ({connection}) => {
     //   <WalletProvider wallets={wallets} autoConnect>
     //     <WalletModalProvider >
     <>
-      <div className='section-2new'>
+      <div className='section-2new' style={{marginBottom: "100px"}}>
         <Row className='px-3 py-0'>
           <Col lg={3} className='p-0'></Col>
           <Col lg={6} className='p-0'>
@@ -309,7 +310,7 @@ const BurnPortal = ({connection}) => {
 
       </div>
 
-      <div className='section-8 px-3'>
+      <div className='section-8 sticky px-3'>
         <Row>
           <Col lg={3}></Col>
           <Col lg={6} className='footer pt-1'>
