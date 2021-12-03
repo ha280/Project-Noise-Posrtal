@@ -1,14 +1,16 @@
 .gallerycard{
     background-color: #ffffff;
-    padding : 24px;
+    padding : 12px;
     border: solid 3px white;
     position: relative;
+    height: 17.5rem;
   }
   .clickedgallryCard{
     background-color: #ffffff;
-    padding : 24px;
+    padding : 12px;
     position: relative;
     border: solid 3px black;
+    height: 17.5rem;
   }
   
   .gallerycard:hover{

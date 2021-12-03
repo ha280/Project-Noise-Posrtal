@@ -155,7 +155,7 @@ const BurnPortal = ({connection}) => {
           // cardInfo=card;
           SetNftInfo(card);
           console.log('noise', card);
-          SetNoise(SetNftInfo.length); 
+          // SetNoise(SetNftInfo.length); 
         } catch (error) {
           console.log(error);
         }
@@ -280,27 +280,25 @@ const BurnPortal = ({connection}) => {
             </div>
             <div style={{minHeight:"50vh"}}>
                 <div style={{borderBottom: "solid 2px black"}}>
-                    <p>My Noises ({noise})</p>
+                    <p>My Noises ({cardInfo.length})</p>
                 </div>
                 <div>
                     { connect ?
                     
                     <Row className='mr-0'>
-                          <Loader
+                          {/* <Loader
                           type="FadeLoader"
                           color="#00BFFF"
                           height={100}
                           width={100}
                           timeout={3000}
-                        />
+                        /> */}
                         {nftInfo.map((product, i) => (
                           
                             <Col key={i} sm={12} lg={4 } style={{ padding: '5px' }} onClick={() => {
                               setShow(!show);
-                              
-
                             }}>
-                              <SelectCard product={product} onSelect={countfunc}/>
+                              <SelectCard product={product} onSelect={countfunc} shouldSelect={count.length }/>
                             </Col>
                           
                         ))}
@@ -336,20 +334,20 @@ const BurnPortal = ({connection}) => {
                           <button  disabled={(count.length <= 5 || count.length > 6) || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
-                          style={isLoading ? {background: "linear-gradient(90deg, rgb(153 255 225), rgb(255 126 123), rgb(255 255 140))",opacity: "0.4",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
+                          style={isLoading || count.length <= 5 || count.length > 6 ? {background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
                           >
                           
                             <FontAwesomeIcon
                                 icon={faFire}
-                                style={{ width: "1rem", margin: "0 1rem" }}
+                                style={{ width: "1rem",  margin: "0 0.5rem 0 0"  }}
                             />
                         {isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
-                          <button style={{padding:"10px",border:"0"}}>
+                          <button style={{padding:"10px",border:"0",}}>
                           <FontAwesomeIcon
                                 icon={faTimes}
-                                style={{ width: "1rem", margin: "0 1rem" }}
+                                style={{ width: "1rem",  margin: "0 0.5rem 0 0",opacity:"0.4" }}
                             />
-                            Cancel</button>
+                            <span style={{opacity:"0.4"}}>Cancel</span></button>
                         </div>
                       </div>  
                     :
