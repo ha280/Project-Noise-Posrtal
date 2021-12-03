@@ -10,6 +10,9 @@ import { faFire,faTimes } from "@fortawesome/free-solid-svg-icons";
 import NFTs from '@primenums/solana-nft-tools';
 import * as web3 from "@solana/web3.js";
 import { Program, Provider } from "@project-serum/anchor";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+
 import {
   TOKEN_PROGRAM_ID,
   Token,
@@ -31,7 +34,22 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 
 let count = [];
 let noises = [];
-let cardInfo = [];
+let cardInfo = [{
+  "code": "#1240",
+  "mint": "HDtT4co9qqiG98jQ7ZZ84UGWinmVF4Ads7NkZk6SbfyV",
+  "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
+  "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
+  "traits": [
+      {
+          "trait_type": "Color",
+          "value": "Yellow"
+      },
+      {
+          "trait_type": "Type",
+          "value": "Ripple One"
+      }
+  ]
+}];
 const BurnPortal = ({connection}) => {
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
@@ -266,7 +284,15 @@ const BurnPortal = ({connection}) => {
                 </div>
                 <div>
                     { connect ?
+                    
                     <Row className='mr-0'>
+                          <Loader
+                          type="Puff"
+                          color="#00BFFF"
+                          height={100}
+                          width={100}
+                          timeout={3000}
+                        />
                         {nftInfo.map((product, i) => (
                           
                             <Col key={i} sm={12} lg={4 } style={{ padding: '5px' }} onClick={() => {
@@ -279,6 +305,8 @@ const BurnPortal = ({connection}) => {
                           
                         ))}
                       </Row>
+                     //3 secs
+                    
                     :
                     ""
                     // <ConnectButton className="burnbutton">Connect Wallet</ConnectButton>
@@ -308,7 +336,7 @@ const BurnPortal = ({connection}) => {
                           <button  disabled={(count.length <= 5 || count.length > 6) || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
-                          style={isLoading ? {background: "linear-gradient(263.04deg, #FFFF00 3.9%, #FF0D0D 49.87%, #0EFFB7 98.09%, #0EFFB7 98.09%)",opacity: "0.4",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
+                          style={isLoading ? {background: "linear-gradient(90deg, rgb(153 255 225), rgb(255 126 123), rgb(255 255 140))",opacity: "0.4",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
                           >
                           
                             <FontAwesomeIcon
