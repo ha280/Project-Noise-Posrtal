@@ -43,11 +43,11 @@
   background-color: #F8F8F8;
     border-top: 1px solid #E7E7E7;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     position: fixed;
     left: 0;
     bottom: 0;
-    /* height: 60px; */
+    height: 76px;
     width: 100%;
 }
   

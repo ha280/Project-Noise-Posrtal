@@ -31,22 +31,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 
 let count = [];
 let noises = [];
-let cardInfo = [{
-  "code": "#1240",
-  "mint": "HDtT4co9qqiG98jQ7ZZ84UGWinmVF4Ads7NkZk6SbfyV",
-  "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
-  "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
-  "traits": [
-      {
-          "trait_type": "Color",
-          "value": "Yellow"
-      },
-      {
-          "trait_type": "Type",
-          "value": "Ripple One"
-      }
-  ]
-}];
+let cardInfo = [];
 const BurnPortal = ({connection}) => {
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
@@ -263,7 +248,7 @@ const BurnPortal = ({connection}) => {
     //   <WalletProvider wallets={wallets} autoConnect>
     //     <WalletModalProvider >
     <>
-      <div className='section-2new' style={{marginBottom: "100px"}}>
+      <div className='section-2new' style={{marginBottom: "76px"}}>
         <Row className='px-3 py-0'>
           <Col lg={3} className='p-0'></Col>
           <Col lg={6} className='p-0'>
@@ -317,14 +302,15 @@ const BurnPortal = ({connection}) => {
           <Col lg={3}></Col>
           <Col lg={6} className='footer pt-1'>
           { connect ?
-                      <div style={{display: "inline-block", width:"100%", padding:"30px 0 20px 0"}}>
-                        <p style={{float: "left",color:"black"}}>{count.length} Noises selected</p>
+                      <div style={{display: "inline-block", width:"100%", padding:"10px 0 20px 0"}}>
+                        <p style={{float: "left",color:"black",marginTop:"10px"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
                           <button  disabled={(count.length <= 5 || count.length > 6) || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
-                          style={{backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
+                          style={isLoading ? {background: "linear-gradient(263.04deg, #FFFF00 3.9%, #FF0D0D 49.87%, #0EFFB7 98.09%, #0EFFB7 98.09%)",opacity: "0.4",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
                           >
+                          
                             <FontAwesomeIcon
                                 icon={faFire}
                                 style={{ width: "1rem", margin: "0 1rem" }}
