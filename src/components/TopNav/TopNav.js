@@ -30,9 +30,12 @@ const TopNav = ({ location }) => {
             <Navbar.Collapse id="responsive-navbar-nav">
               
               <Nav className='ms-auto'>
-              <WalletMultiButton />
+              <WalletMultiButton className="btn-outline" />
                 {location.pathname === '/mint' ?
-                  <Button variant='secondary' className='ml-4 mr-2 btn-outline' id='wallet-btn'>Connect Wallet</Button>
+                  <Button
+                  //  variant='secondary'
+                    className='ml-4 mr-2 btn-outline' 
+                    id='wallet-btn'>Connect Wallet</Button>
                   :
                   location.pathname === '/whitelist-checker' ? <Nav />
                     :

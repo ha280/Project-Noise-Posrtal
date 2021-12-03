@@ -287,7 +287,7 @@ const BurnPortal = ({connection}) => {
                     
                     <Row className='mr-0'>
                           <Loader
-                          type="Puff"
+                          type="FadeLoader"
                           color="#00BFFF"
                           height={100}
                           width={100}

@@ -123,8 +123,8 @@ p{
   color: white !important;
   border-radius: 0 !important;
   background-color: #040404 !important;
-  font-size: 20px;
-  padding: 20px 24px;
+  /* font-size: 20px; */
+  /* padding: 20px 24px; */
 }
 
 .btn-outline:hover{
@@ -134,8 +134,8 @@ p{
   border: solid 2px transparent !important;
   border-image: linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00) !important;
   border-image-slice: 1 !important;
-  font-size: 20px;
-  padding: 20px 24px;
+  /* font-size: 20px; */
+  /* padding: 20px 24px; */
 }
 
 .btn-outline:active{
@@ -145,8 +145,8 @@ p{
   border: solid 2px transparent !important;
   border-image: linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00) !important;
   border-image-slice: 1 !important;
-  font-size: 20px;
-  padding: 20px 24px;
+  /* font-size: 20px;
+  padding: 20px 24px; */
 }
 
 .btn-outline-connected{
