@@ -263,7 +263,7 @@ const BurnPortal = ({connection}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setClose(true)
-    }, 3000);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -295,10 +295,10 @@ const BurnPortal = ({connection}) => {
                       <div className="load" style={close ?{display:"none"}:{display:"block"}}>
                         <Loader
                           type="FadeLoader"
-                          color="#00BFFF"
+                          color="#00000"
                           height={100}
                           width={100}
-                          timeout={3000}
+                          timeout={10000}
                           className="loader"
                         />
                       </div>
@@ -341,10 +341,10 @@ const BurnPortal = ({connection}) => {
                       <div style={{display: "inline-block", width:"100%", padding:"10px 0 20px 0"}}>
                         <p style={{float: "left",color:"black",marginTop:"10px"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
-                          <button  disabled={(count.length <= 5 || count.length > 6) || isLoading}
+                          <button  disabled={(count.length < 1 || count.length > 1) || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
-                          style={isLoading || count.length <= 5 || count.length > 6 ? {background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
+                          style={isLoading || count.length < 1 || count.length > 1 ? {background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
                           >
                           
                             <FontAwesomeIcon
