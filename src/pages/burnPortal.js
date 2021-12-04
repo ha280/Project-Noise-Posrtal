@@ -88,8 +88,9 @@ const BurnPortal = ({connection}) => {
 
   //GET details of the Noise NFTs a wallet holds
   useEffect(() => {    
-    (async () => {
+    (async () => {      
       if (wallet?.publicKey) {
+        console.log("public key", wallet.publicKey.toString());
         SetConnect(true);
         console.log("wallet connected here");
         // Create connection
@@ -107,20 +108,31 @@ const BurnPortal = ({connection}) => {
             let mint = mints[i];
             // console.log("cardInfo", cardInfo,i);
             if(allMints.includes(mint)){           
-              
+              console.log('mint', mint);
+
+              const tokenAddress = await Token.getAssociatedTokenAddress(
+                ASSOCIATED_TOKEN_PROGRAM_ID,
+                TOKEN_PROGRAM_ID,
+                new web3.PublicKey(mint),
+                wallet.publicKey
+            );
+            let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
+            console.log(tokenAddressBalance.value.amount);
+
               let myNFT = await NFTs.getNFTByMintAddress(connection, mint);
-              // console.log('myNFT', myNFT);
+              console.log('myNFT', myNFT);
 
               //CHECK IF the user is the current nft owner
-              if(wallet.publicKey.toString() == myNFT.owner){
-
+              if(tokenAddressBalance.value.amount > 0){
+                // console.log("public key", wallet.publicKey.toString());
+                // console.log("public nft owner", myNFT.owner);
                 let cardObj = {};
                 // console.log("new mint", mint);                              
                 fetch('https://api-devnet.solscan.io/account?address=' + mint) 
                 .then(response => response.json())
                 .then(data => {                                         
                     // name of the noise
-                    console.log("metadata", data.data.metadata);
+                    // console.log("metadata", data.data.metadata);
 
                     //supply should not be zero
                     if(data.data.tokenInfo.supply > 0){                    
@@ -129,7 +141,7 @@ const BurnPortal = ({connection}) => {
                       .then(response => response.json())
                       .then(data => {                    
                         // image url for the noise
-                        console.log("uri ", data);
+                        // console.log("uri ", data);
 
                         cardObj = {                          
                           "code": data.name,
