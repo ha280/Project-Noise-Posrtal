@@ -22,6 +22,7 @@
   
   .card-image img{
     text-align: center;
+    min-height: 200px;
     max-width: 100%;
     max-height: 100%;
     display: block;
@@ -85,8 +86,20 @@
     transform: rotate(45deg);
   }
   
-  
-  
+  .modal-body{
+    padding-bottom: 10px !important;
+  }
+  .modal{
+    width: 40rem;
+    height: 6rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+}
   
   @media screen and (max-width: 812px) {
     .mobile-owner{

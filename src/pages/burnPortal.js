@@ -35,10 +35,10 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 let count = [];
 let noises = [];
 let cardInfo = [{
-  "code": "#1240",
-  "mint": "HDtT4co9qqiG98jQ7ZZ84UGWinmVF4Ads7NkZk6SbfyV",
-  "owner": "CM1CPAJPZ59VCMtFBP5pdN4LT3MaziYZoaxDSBPTvJ65",
-  "src": "https://arweave.net/TFlPE0iN7DRzItMiGn97C53tMTE2gsg524hySCAi_So",
+  "code": "#",
+  "mint": "",
+  "owner": "",
+  "src": "",
   "traits": [
       {
           "trait_type": "Color",
@@ -70,6 +70,8 @@ const BurnPortal = ({connection}) => {
         });
       }
     }, [isLoading]);
+
+    
 
     const countfunc = (product,isSelected) => {
       console.log("count",product);
@@ -275,7 +277,7 @@ const BurnPortal = ({connection}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setClose(true)
-    }, 10000);
+    }, 11000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -298,6 +300,7 @@ const BurnPortal = ({connection}) => {
             </div>
             <div style={{minHeight:"50vh"}}>
                 <div style={{borderBottom: "solid 2px black"}}>
+                {/* <Loader type="Oval" color="#00BFFF" height={80} width={80} /> */}
                     <p>My Noises ({cardInfo.length})</p>
                 </div>
                 <div>
@@ -306,13 +309,12 @@ const BurnPortal = ({connection}) => {
                     <Row className='mr-0' style={{position:"relative"}}>
                       <div className="load" style={close ?{display:"none"}:{display:"block"}}>
                         <Loader
-                          type="FadeLoader"
-                          color="#00000"
-                          height={100}
-                          width={100}
-                          timeout={10000}
-                          className="loader"
-                        />
+                           type="Oval" 
+                           color="#000"
+                            height={80}
+                             width={80} 
+                             className="loader"
+                             />
                       </div>
                           
                         {nftInfo.map((product, i) => (
