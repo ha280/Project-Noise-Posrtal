@@ -265,7 +265,7 @@ const BurnPortal = ({connection}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setClose(true)
-    }, 10000);
+    }, 11000);
     return () => clearTimeout(timer);
   }, []);
 
