@@ -53,6 +53,7 @@ let cardInfo = [{
 const BurnPortal = ({connection}) => {
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
+  const [close, setClose] = useState(false);
     const [noise,SetNoise] = useState('-');
     const [connect,SetConnect] = useState(false);
     const [nftInfo, SetNftInfo] = useState(false);
@@ -259,7 +260,12 @@ const BurnPortal = ({connection}) => {
       console.log(e);      
     } 
   }
-    
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setClose(true)
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     // <ConnectionProvider endpoint={endpoint}>
@@ -285,20 +291,24 @@ const BurnPortal = ({connection}) => {
                 <div>
                     { connect ?
                     
-                    <Row className='mr-0'>
-                          {/* <Loader
+                    <Row className='mr-0' style={{position:"relative"}}>
+                      <div className="load" style={close ?{display:"none"}:{display:"block"}}>
+                        <Loader
                           type="FadeLoader"
                           color="#00BFFF"
                           height={100}
                           width={100}
                           timeout={3000}
-                        /> */}
+                          className="loader"
+                        />
+                      </div>
+                          
                         {nftInfo.map((product, i) => (
                           
                             <Col key={i} sm={12} lg={4 } style={{ padding: '5px' }} onClick={() => {
                               setShow(!show);
                             }}>
-                              <SelectCard product={product} onSelect={countfunc} shouldSelect={count.length }/>
+                              <SelectCard product={product} onSelect={countfunc} shouldSelect={count.length} />
                             </Col>
                           
                         ))}
@@ -342,12 +352,16 @@ const BurnPortal = ({connection}) => {
                                 style={{ width: "1rem",  margin: "0 0.5rem 0 0"  }}
                             />
                         {isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
-                          <button style={{padding:"10px",border:"0",}}>
+                          <button style={{padding:"10px",border:"0",}} onClick={()=>{
+                            // setClose(true);
+                            count=[];
+                            }}>
                           <FontAwesomeIcon
                                 icon={faTimes}
                                 style={{ width: "1rem",  margin: "0 0.5rem 0 0",opacity:"0.4" }}
                             />
-                            <span style={{opacity:"0.4"}}>Cancel</span></button>
+                            <span style={{opacity:"0.4"}}>Cancel</span>
+                            </button>
                         </div>
                       </div>  
                     :

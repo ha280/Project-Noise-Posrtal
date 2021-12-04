@@ -8,7 +8,7 @@ const SelectCard = ({ product,onSelect,shouldSelect }) => {
   
   return (
     <>
-      <div className={show ? 'clickedgallryCard':'gallerycard'} onClick={() => {
+      <div className={show  ? 'clickedgallryCard':'gallerycard'} onClick={() => {
         
         if(shouldSelect+1<2 || show== true){
           onSelect(product.mint,show);
