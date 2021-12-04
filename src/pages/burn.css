@@ -43,14 +43,31 @@
   background-color: #F8F8F8;
     border-top: 1px solid #E7E7E7;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     position: fixed;
     left: 0;
     bottom: 0;
-    /* height: 60px; */
+    height: 76px;
     width: 100%;
 }
+.load{
+  background-color: #ffffffb0;
+  position: absolute;
+  z-index: 1000;
+  height: 100%;
   
+}
+
+.loader{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+}
 .modal{
   padding: 0 !important;
 }

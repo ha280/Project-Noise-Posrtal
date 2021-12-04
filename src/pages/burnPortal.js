@@ -5,9 +5,14 @@ import SelectCard from '../components/selectCard/selectCard'
 import './burn.css'
 import allMints from '../mint-devnet.json'
 import { useWallet } from '@solana/wallet-adapter-react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFire,faTimes } from "@fortawesome/free-solid-svg-icons";
 import NFTs from '@primenums/solana-nft-tools';
 import * as web3 from "@solana/web3.js";
 import { Program, Provider } from "@project-serum/anchor";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+
 import {
   TOKEN_PROGRAM_ID,
   Token,
@@ -48,6 +53,7 @@ let cardInfo = [{
 const BurnPortal = ({connection}) => {
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
+  const [close, setClose] = useState(false);
     const [noise,SetNoise] = useState('-');
     const [connect,SetConnect] = useState(false);
     const [nftInfo, SetNftInfo] = useState(false);
@@ -158,10 +164,11 @@ const BurnPortal = ({connection}) => {
               }
             }
           }
-          // SetNoise(cardInfo.length); 
+          
           // cardInfo=card;
           SetNftInfo(card);
           console.log('noise', card);
+          // SetNoise(SetNftInfo.length); 
         } catch (error) {
           console.log(error);
         }
@@ -265,14 +272,19 @@ const BurnPortal = ({connection}) => {
       console.log(e);      
     } 
   }
-    
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setClose(true)
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     // <ConnectionProvider endpoint={endpoint}>
     //   <WalletProvider wallets={wallets} autoConnect>
     //     <WalletModalProvider >
     <>
-      <div className='section-2new'>
+      <div className='section-2new' style={{marginBottom: "76px"}}>
         <Row className='px-3 py-0'>
           <Col lg={3} className='p-0'></Col>
           <Col lg={6} className='p-0'>
@@ -286,23 +298,35 @@ const BurnPortal = ({connection}) => {
             </div>
             <div style={{minHeight:"50vh"}}>
                 <div style={{borderBottom: "solid 2px black"}}>
-                    <p>My Noises ({noise})</p>
+                    <p>My Noises ({cardInfo.length})</p>
                 </div>
                 <div>
                     { connect ?
-                    <Row className='mr-0'>
+                    
+                    <Row className='mr-0' style={{position:"relative"}}>
+                      <div className="load" style={close ?{display:"none"}:{display:"block"}}>
+                        <Loader
+                          type="FadeLoader"
+                          color="#00000"
+                          height={100}
+                          width={100}
+                          timeout={10000}
+                          className="loader"
+                        />
+                      </div>
+                          
                         {nftInfo.map((product, i) => (
                           
                             <Col key={i} sm={12} lg={4 } style={{ padding: '5px' }} onClick={() => {
                               setShow(!show);
-                              
-
                             }}>
-                              <SelectCard product={product} onSelect={countfunc}/>
+                              <SelectCard product={product} onSelect={countfunc} shouldSelect={count.length} />
                             </Col>
                           
                         ))}
                       </Row>
+                     //3 secs
+                    
                     :
                     ""
                     // <ConnectButton className="burnbutton">Connect Wallet</ConnectButton>
@@ -321,20 +345,35 @@ const BurnPortal = ({connection}) => {
 
       </div>
 
-      <div className='section-8 px-3'>
+      <div className='section-8 sticky px-3'>
         <Row>
           <Col lg={3}></Col>
           <Col lg={6} className='footer pt-1'>
           { connect ?
-                      <div style={{display: "inline-block", width:"100%", padding:"30px 0 20px 0"}}>
-                        <p style={{float: "left",color:"black"}}>{count.length} Noises selected</p>
+                      <div style={{display: "inline-block", width:"100%", padding:"10px 0 20px 0"}}>
+                        <p style={{float: "left",color:"black",marginTop:"10px"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
-                          <button  disabled={(count.length <= 5 || count.length > 6) || isLoading}
+                          <button  disabled={(count.length < 1 || count.length > 1) || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
-                          style={{backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
-                          >{isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
-                          <button style={{padding:"10px",border:"0"}}>Cancel</button>
+                          style={isLoading || count.length < 1 || count.length > 1 ? {background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
+                          >
+                          
+                            <FontAwesomeIcon
+                                icon={faFire}
+                                style={{ width: "1rem",  margin: "0 0.5rem 0 0"  }}
+                            />
+                        {isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
+                          <button style={{padding:"10px",border:"0",}} onClick={()=>{
+                            // setClose(true);
+                            count=[];
+                            }}>
+                          <FontAwesomeIcon
+                                icon={faTimes}
+                                style={{ width: "1rem",  margin: "0 0.5rem 0 0",opacity:"0.4" }}
+                            />
+                            <span style={{opacity:"0.4"}}>Cancel</span>
+                            </button>
                         </div>
                       </div>  
                     :
