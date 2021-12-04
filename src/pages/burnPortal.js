@@ -71,6 +71,8 @@ const BurnPortal = ({connection}) => {
       }
     }, [isLoading]);
 
+    
+
     const countfunc = (product,isSelected) => {
       console.log("count",product);
     //   console.log(isSelected);
