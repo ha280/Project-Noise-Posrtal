@@ -123,13 +123,10 @@ const BurnPortal = ({connection}) => {
                 TOKEN_PROGRAM_ID,
                 new web3.PublicKey(mint),
                 wallet.publicKey
-            );
-            let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
-            console.log(tokenAddressBalance.value.amount);
-
-              let myNFT = await NFTs.getNFTByMintAddress(connection, mint);
-              console.log('myNFT', myNFT);
-
+              );
+              let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
+              console.log(tokenAddressBalance.value.amount);
+              
               //CHECK IF the user is the current nft owner
               if(tokenAddressBalance.value.amount > 0){
                 // console.log("public key", wallet.publicKey.toString());
@@ -140,7 +137,7 @@ const BurnPortal = ({connection}) => {
                 .then(response => response.json())
                 .then(data => {                                         
                     // name of the noise
-                    // console.log("metadata", data.data.metadata);
+                    console.log("metadata", data.data.metadata);
 
                     //supply should not be zero
                     if(data.data.tokenInfo.supply > 0){                    
