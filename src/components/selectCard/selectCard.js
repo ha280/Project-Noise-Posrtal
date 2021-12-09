@@ -22,7 +22,7 @@ const SelectCard = ({ product,onSelect,shouldSelect }) => {
     <>
       <div className={show  ? 'clickedgallryCard':'gallerycard'} onClick={() => {
         
-        if(shouldSelect+1<2 || show== true){
+        if(shouldSelect+1<7 || show== true){
           onSelect(product.mint,show);
           setShow(!show);
         }else{

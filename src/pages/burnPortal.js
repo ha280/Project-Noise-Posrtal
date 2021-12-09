@@ -269,6 +269,10 @@ const BurnPortal = ({connection}) => {
     return () => clearTimeout(timer);
   }, []);
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   return (
     // <ConnectionProvider endpoint={endpoint}>
     //   <WalletProvider wallets={wallets} autoConnect>
@@ -289,7 +293,9 @@ const BurnPortal = ({connection}) => {
             <div style={{minHeight:"50vh"}}>
                 <div style={{borderBottom: "solid 2px black"}}>
                 {/* <Loader type="Oval" color="#00BFFF" height={80} width={80} /> */}
-                    <p>My Noises ({cardInfo.length})</p>
+                    <p>My Noises 
+                      {/* ({cardInfo.length}) */}
+                      </p>
                 </div>
                 <div>
                     { connect ?
@@ -343,10 +349,10 @@ const BurnPortal = ({connection}) => {
                       <div style={{display: "inline-block", width:"100%", padding:"10px 0 20px 0"}}>
                         <p style={{float: "left",color:"black",marginTop:"10px"}}>{count.length} Noises selected</p>
                         <div style={{float: "right"}}>
-                          <button  disabled={(count.length < 1 || count.length > 1) || isLoading}
+                          <button  disabled={(count.length < 6 || count.length > 6) || isLoading}
                           // onClick={()=>{setFinal(true);}}
                           onClick={onBurn}
-                          style={isLoading || count.length < 1 || count.length > 1 ? {background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
+                          style={isLoading || count.length < 6 || count.length > 6 ? {background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))",marginRight: "10px",padding:"10px",border:"0"} : {backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)",marginRight: "10px",padding:"10px",border:"0"}} 
                           >
                           
                             <FontAwesomeIcon
@@ -372,7 +378,10 @@ const BurnPortal = ({connection}) => {
           <Col lg={3}></Col>
         </Row>
       </div>
-      <Modal show={final} fullscreen='true' onHide={() => setFinal(false)}>
+      <Modal show={final} fullscreen='true' 
+      onHide={() => {
+        setFinal(false);
+        refreshPage()}}>
         <Modal.Header closeButton className='custom'>
           <Modal.Title className='modal-title'></Modal.Title>
         </Modal.Header>

@@ -86,10 +86,10 @@
     transform: rotate(45deg);
   }
   
-  .modal-body{
+  .modal-body-1{
     padding-bottom: 10px !important;
   }
-  .modal{
+  .modal-1{
     width: 40rem;
     height: 6rem;
     top: 50%;
