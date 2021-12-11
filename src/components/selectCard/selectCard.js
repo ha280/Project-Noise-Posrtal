@@ -29,9 +29,9 @@ const SelectCard = ({ product,onSelect,shouldSelect }) => {
           setClicked(true);
         }
       }}>
-        <label class="container">
+        <label className="container">
           <input type="checkbox" checked={show}/>
-          <span class="checkmark"></span>
+          <span className="checkmark"></span>
         </label>
         <div className='card-image' style={{paddingTop:"0"}}>
           <img src={product.src} alt='galleryimage' />

@@ -3,7 +3,7 @@ import { Modal, Button, Row, Col, Overlay,Nav } from 'react-bootstrap';
 import SelectCard from '../components/selectCard/selectCard'
 // import LogoWeb from '../assets/Landingweb
 import './burn.css'
-import allMints from '../mint-devnet.json'
+import allMints from '../mint.json'
 import { useWallet } from '@solana/wallet-adapter-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFire,faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -99,6 +99,7 @@ const BurnPortal = ({connection}) => {
     (async () => {      
       if (wallet?.publicKey) {
         console.log("public key", wallet.publicKey.toString());
+        console.log("wallet", wallet);
         SetConnect(true);
         console.log("wallet connected here");
         // Create connection
@@ -133,7 +134,8 @@ const BurnPortal = ({connection}) => {
                 // console.log("public nft owner", myNFT.owner);
                 let cardObj = {};
                 // console.log("new mint", mint);                              
-                fetch('https://api-devnet.solscan.io/account?address=' + mint) 
+                fetch('https://api.solscan.io/account?address=' + mint) //mainnet api
+                // fetch('https://api-devnet.solscan.io/account?address=' + mint) //devnet api
                 .then(response => response.json())
                 .then(data => {                                         
                     // name of the noise
@@ -242,16 +244,16 @@ const BurnPortal = ({connection}) => {
         const { candyMachine, goLiveDate, itemsRemaining, itemsAvailable, itemsRedeemed } =
           await getCandyMachineState(
             anchorWallet,
-            "G5BXXPsGfYVQHw3k4NZrmMC2UMFRdosyv6JtwciqC1A7",
+            "Bnmh7NM1yB2wQDKVW6Tu7fLuEgtc1RkjXqKgk6HrzZHY", //candy machine id
             connection
           );
 
         //Mint token
         const [mintTxId, mint] = await mintOneToken(
           candyMachine,
-          new web3.PublicKey("CuVXnd2GhJ55jDDfpKk1SSWuEyMVmYi5NJevaGEm2Fex"),
+          new web3.PublicKey("7zLdLg6vPUp8ANz2ZfJNDDWpjTujRZcKQHG26XsfB2E8"), //config id
           wallet.publicKey,
-          new web3.PublicKey("5NRKYY5xy7V7HcFXJAbJYbhh4oKixUJmqMq89ZJcdsH6")
+          new web3.PublicKey("BTBBtGNKUMooqoxi4mMxLAQ7EjHbvVzPSubHXKj9jEGX") //Treasury wallet address
         );
 
         const status = await awaitTransactionSignatureConfirmation(
