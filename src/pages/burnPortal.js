@@ -27,7 +27,7 @@ import {
   mintOneToken,  
 } from "../candy-machine";
 
-import web_hero_gif from '../content/Untitled.png';
+import web_hero_gif from '../assets/animationtest_2.gif';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');

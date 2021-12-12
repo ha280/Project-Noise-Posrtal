@@ -4,7 +4,7 @@ import link_arrow from '../assets/link_arrow.png';
 import { ReactComponent as LogoSvg } from '../assets/logo.svg';
 import { ReactComponent as Logo2Svg } from '../assets/logo2.svg';
 // import LogoWeb from '../assets/Landingweb
-import web_hero_gif from '../assets/animationtest10001-0180.mp4';
+import web_hero_gif from '../assets/animationtest_2.gif';
 
 
 
@@ -18,20 +18,20 @@ const newHome = () => {
         <Row className='px-3 m-0'>
           <Col lg={2}></Col>
 
-          <Col lg={10}>
+          <Col lg={8}>
             <div className='main-section'>
               <div className='mint-sectionnew'>
                 <div className='mint-container'>
-                  <h1 >Join the Noise Club!</h1>
+                  <h1 >Join the <br/> Noise Club!</h1>
                   <p>
-                  To claim the Noise pass you need to burn 6 noise
+                  To claim the Noise pass you need to burn 6 noises.
                   </p>
                   {/* <Button variant='secondary' className='btn-primary2 m-0 btn-block'> SOLD OUT ! </Button> */}
-                  <div className='outline-divnew'>Status - 21/100 Claimed</div>
+                  <div className='outline-divnew'>Status - 0/100 Claimed</div>
                     <Button href="/burnportal" className='text-center cardDivLarge text-white p-2' style = {{ width:"20rem"}}>Go to Burn Portal -> </Button>
                 </div>
               </div>
-              <div className='gifWeb' style={{marginLeft: "2rem"}}>
+              <div className='gifWeb' style={{marginLeft: "4rem"}}>
                 <img src={web_hero_gif} />
               </div>
             </div>
@@ -49,7 +49,7 @@ const newHome = () => {
         </Row>
       </div>
 
-      <div className='section-2new'>
+      {/* <div className='section-2new'>
         <Row className='px-3 py-0'>
           <Col lg={3} className='p-0'></Col>
           <Col lg={6} className='p-0'>
@@ -104,7 +104,7 @@ const newHome = () => {
           </Col>
           <Col lg={3}></Col>
         </Row>
-      </div>
+      </div> */}
 
     </>
   );
