@@ -299,7 +299,7 @@ const BurnPortal = ({connection}) => {
                     <li style={{color: "#050505",opacity:"0.7",paddingTop:"7px",paddingBottom:"2px"}}>Select 6 noises which you want to burn.</li>
                     <li style={{color: "#050505",opacity:"0.7",paddingTop:"7px",paddingBottom:"2px"}}>Burn & claim</li>
                 </ol>
-                <p style={{marginBottom: "43px"}}> NOTE: If you don’t have enough noises -<a href="">buy here</a> </p>
+                <p style={{marginBottom: "43px"}}> NOTE: If you don’t have enough noises - <a href="https://magiceden.io/marketplace/project_noise">buy here</a> </p>
             </div>
             <div style={{minHeight:"50vh"}}>
                 <div style={{borderBottom: "solid 2px black"}}>
@@ -371,7 +371,7 @@ const BurnPortal = ({connection}) => {
                                 style={{ width: "1rem",  margin: "0 0.5rem 0 0"  }}
                             />
                         {isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
-                          <button style={{padding:"10px",border:"0",}} onClick={()=>{
+                          {/* <button style={{padding:"10px",border:"0",}} onClick={()=>{
                             // setClose(true);
                             count=[];
                             }}>
@@ -380,7 +380,7 @@ const BurnPortal = ({connection}) => {
                                 style={{ width: "1rem",  margin: "0 0.5rem 0 0",opacity:"0.4" }}
                             />
                             <span style={{opacity:"0.4"}}>Cancel</span>
-                            </button>
+                            </button> */}
                         </div>
                       </div>  
                     :
