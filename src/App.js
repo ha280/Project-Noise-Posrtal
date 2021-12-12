@@ -32,8 +32,8 @@ function App() {
   // You can also provide a custom RPC endpoint
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-  const rpcHost = "https://explorer-api.devnet.solana.com";
-  // const rpcHost = "https://api.mainnet-beta.solana.com";
+  // const rpcHost = "https://explorer-api.devnet.solana.com";
+  const rpcHost = "https://api.mainnet-beta.solana.com";
 const connection = new web3.Connection(rpcHost, "recent");
 
 console.log("connection", connection);
