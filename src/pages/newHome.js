@@ -1,17 +1,54 @@
-import React from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Row, Col, Nav,Button } from 'react-bootstrap';
 import link_arrow from '../assets/link_arrow.png';
 import { ReactComponent as LogoSvg } from '../assets/logo.svg';
 import { ReactComponent as Logo2Svg } from '../assets/logo2.svg';
 // import LogoWeb from '../assets/Landingweb
+import {
+  CandyMachine,  
+  getCandyMachineState,  
+} from "../candy-machine";
+import { useWallet } from '@solana/wallet-adapter-react';
 import web_hero_gif from '../assets/animationtest_2.gif';
-
-
-
-
 import './home.css'
 
-const newHome = () => {
+const NewHome = ({connection}) => {
+
+const wallet = useWallet();
+const [itemsAvailable, setItemsAvailable] = useState();
+const [itemsRedeemed, setItemsRedeemed] = useState();
+const [itemsRemaining, setItemsRemaining] = useState();
+  
+useEffect(() => {    
+  (async () => {      
+    if (wallet?.publicKey) {
+      console.log("public key", wallet.publicKey.toString());
+      console.log("wallet", wallet);
+      
+      console.log("wallet connected here");
+      
+      const anchorWallet = {
+        publicKey: wallet.publicKey,
+        signAllTransactions: wallet.signAllTransactions,
+        signTransaction: wallet.signTransaction,
+      };
+
+      const { candyMachine, goLiveDate, itemsRemaining, itemsAvailable, itemsRedeemed } =
+        await getCandyMachineState(
+          anchorWallet,
+          "Bnmh7NM1yB2wQDKVW6Tu7fLuEgtc1RkjXqKgk6HrzZHY", //candy machine id
+          connection
+        );
+
+        console.log("redeemed", itemsRedeemed);
+        console.log("available", itemsAvailable);
+        setItemsAvailable(itemsAvailable);
+        setItemsRedeemed(itemsRedeemed);
+
+    }
+  })();
+}, [wallet]);
+
   return (
     <>
       <div className='section-1 dark-bg'>
@@ -27,8 +64,8 @@ const newHome = () => {
                   To claim the Noise pass you need to burn 6 noises.
                   </p>
                   {/* <Button variant='secondary' className='btn-primary2 m-0 btn-block'> SOLD OUT ! </Button> */}
-                  <div className='outline-divnew'>Status - 0/100 Claimed</div>
-                    <Button href="/burnportal" className='text-center cardDivLarge text-white p-2' style = {{ width:"20rem"}}>Go to Burn Portal -> </Button>
+                  {wallet.connected ? (<div className='outline-divnew'>Status - {itemsRedeemed}/{itemsAvailable} Claimed</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)}                  
+                    <Button href="/burnportal" className='text-center cardDivLarge text-white p-2' style = {{ width:"20rem"}}>Go to Burn Portal </Button>
                 </div>
               </div>
               <div className='gifWeb' style={{marginLeft: "4rem"}}>
@@ -110,4 +147,4 @@ const newHome = () => {
   );
 };
 
-export default newHome;
+export default NewHome;

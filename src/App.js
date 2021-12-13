@@ -19,7 +19,7 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import * as web3 from "@solana/web3.js";
 
-import newHome from './pages/newHome';
+import NewHome from './pages/newHome';
 import BurnPortal from './pages/burnPortal';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -52,7 +52,8 @@ console.log("connection", connection);
         <WalletModalProvider >
           <TopNav />
           <Switch>
-            <Route exact path='/' component={newHome} />
+            {/* <Route exact path='/' component={newHome} /> */}
+            <Route exact path='/' render={() => <NewHome connection={connection} />}/>
             {/* <Route exact path='/burnPortal' component={BurnPortal} connection={connection} /> */}
             <Route exact path='/burnPortal' render={() => <BurnPortal connection={connection} />} />
           </Switch>
