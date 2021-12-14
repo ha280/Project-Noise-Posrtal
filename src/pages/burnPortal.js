@@ -125,26 +125,35 @@ const BurnPortal = ({connection}) => {
                 new web3.PublicKey(mint),
                 wallet.publicKey
               );
-              let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
-              console.log(tokenAddressBalance.value.amount);
+              // let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
+              // console.log(tokenAddressBalance.value.amount);
+              console.log("mint supply", new web3.PublicKey(mint));
+              let tokenSupply = await connection.getTokenSupply(new web3.PublicKey(mint));
+              console.log("supply", tokenSupply.value.uiAmount);
               
               //CHECK IF the user is the current nft owner
-              if(tokenAddressBalance.value.amount > 0){
+              // if(tokenAddressBalance.value.amount > 0){
                 // console.log("public key", wallet.publicKey.toString());
                 // console.log("public nft owner", myNFT.owner);
+
                 let cardObj = {};
                 // console.log("new mint", mint);                              
-                fetch('https://api.solscan.io/account?address=' + mint) //mainnet api
+                fetch('https://api.theblockchainapi.com/v1/solana/nft/mainnet-beta/' + mint, {headers: {
+                  'Content-Type': 'application/json',
+                  'APIKeyID': 'KtWJrDSugFsWGZj', // TODO: need to change with the paid version
+                   'APISecretKey':'c8gBWN5KSA8tg7c' // TODO: need to change with the paid version
+                }}) //mainnet api
+                // fetch('https://api.solscan.io/account?address=' + mint) //mainnet api
                 // fetch('https://api-devnet.solscan.io/account?address=' + mint) //devnet api
                 .then(response => response.json())
                 .then(data => {                                         
                     // name of the noise
-                    console.log("metadata", data.data.metadata);
-
+                    console.log("metadata", data);
+                    
                     //supply should not be zero
-                    if(data.data.tokenInfo.supply > 0){                    
+                    if(tokenSupply.value.uiAmount > 0){                    
                       noises.push(mint);
-                      fetch(data.data.metadata.data.uri)
+                      fetch(data.data.uri)
                       .then(response => response.json())
                       .then(data => {                    
                         // image url for the noise
@@ -162,7 +171,7 @@ const BurnPortal = ({connection}) => {
                       });                  
                     }                  
                 });
-              }
+              // }
             }
           }
           
@@ -202,7 +211,6 @@ const BurnPortal = ({connection}) => {
       
         console.log("noises in burn", count);
 
-        //TODO: HARSH : change i=0 when your dynamic card display is resolved
         for(let i=0;i<count.length;i++){
           let mint = new web3.PublicKey(count[i]);  
 
