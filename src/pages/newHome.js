@@ -11,6 +11,7 @@ import {
 import { useWallet } from '@solana/wallet-adapter-react';
 import web_hero_gif from '../assets/animationtest_2.gif';
 import './home.css'
+import { useHistory } from "react-router-dom";
 
 const NewHome = ({connection}) => {
 
@@ -18,13 +19,17 @@ const wallet = useWallet();
 const [itemsAvailable, setItemsAvailable] = useState();
 const [itemsRedeemed, setItemsRedeemed] = useState();
 const [itemsRemaining, setItemsRemaining] = useState();
-  
+const history = useHistory();
+
 useEffect(() => {    
   (async () => {      
     if (wallet?.publicKey) {
       console.log("public key", wallet.publicKey.toString());
       console.log("wallet", wallet);
-      
+      if(wallet.disconnecting==true){
+        history.push("/");
+    // window.location.reload(false);
+      }
       console.log("wallet connected here");
       
       const anchorWallet = {

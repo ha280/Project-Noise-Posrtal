@@ -12,7 +12,7 @@ import * as web3 from "@solana/web3.js";
 import { Program, Provider } from "@project-serum/anchor";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
-
+import { useHistory } from "react-router-dom";
 import {
   TOKEN_PROGRAM_ID,
   Token,
@@ -34,22 +34,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 
 let count = [];
 let noises = [];
-let cardInfo = [{
-  "code": "#",
-  "mint": "",
-  "owner": "",
-  "src": "",
-  "traits": [
-      {
-          "trait_type": "Color",
-          "value": "Yellow"
-      },
-      {
-          "trait_type": "Type",
-          "value": "Ripple One"
-      }
-  ]
-}];
+let cardInfo = [];
 const BurnPortal = ({connection}) => {
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
@@ -66,7 +51,7 @@ const BurnPortal = ({connection}) => {
     useEffect(() => {
       if (isLoading) {
         simulateNetworkRequest().then(() => {
-          setLoading(false);
+          
         });
       }
     }, [isLoading]);
@@ -96,7 +81,11 @@ const BurnPortal = ({connection}) => {
 
   //GET details of the Noise NFTs a wallet holds
   useEffect(() => {    
-    (async () => {      
+    (async () => {   
+      if(wallet.disconnecting==true){
+        history.push("/");
+    // window.location.reload(false);
+      }   
       if (wallet?.publicKey) {
         console.log("public key", wallet.publicKey.toString());
         console.log("wallet", wallet);
@@ -125,11 +114,12 @@ const BurnPortal = ({connection}) => {
                 new web3.PublicKey(mint),
                 wallet.publicKey
               );
-              let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
-              console.log(tokenAddressBalance.value.amount);
+              console.log(tokenAddress.toString());
+              // let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
+              // console.log(tokenAddressBalance.value.amount);
               
               //CHECK IF the user is the current nft owner
-              if(tokenAddressBalance.value.amount > 0){
+              // if(tokenAddressBalance.value.amount > 0){
                 // console.log("public key", wallet.publicKey.toString());
                 // console.log("public nft owner", myNFT.owner);
                 let cardObj = {};
@@ -162,7 +152,7 @@ const BurnPortal = ({connection}) => {
                       });                  
                     }                  
                 });
-              }
+              // }
             }
           }
           
@@ -266,11 +256,13 @@ const BurnPortal = ({connection}) => {
 
         console.log("mintTxId: ", mintTxId);
         console.log("mint: ", mint);
-
+          console.log(status)
         setFinal(true);
+        setLoading(status);
       }
     } catch (e) {
-      console.log(e);      
+      console.log(e); 
+      setLoading(false);     
     } 
   }
   useEffect(() => {
@@ -279,9 +271,12 @@ const BurnPortal = ({connection}) => {
     }, 11000);
     return () => clearTimeout(timer);
   }, []);
+  const history = useHistory();
 
   function refreshPage() {
+    history.push("/");
     window.location.reload(false);
+
   }
 
   return (
@@ -402,7 +397,7 @@ const BurnPortal = ({connection}) => {
             <Col lg={6} className='px-3'>
               <h1 className='primary-text' style={{textAlign:"center",fontSize:"28px !important"}}>Congratulations! <br/>
 On joining the club!</h1>
-              <div className='gifWeb' style={{width:"459px",height:"459px",margin:"20px 140px"}}>
+              <div className='gifWeb' style={{width:"459px",height:"459px",margin:"20px 120px"}}>
                 <img src={web_hero_gif} />
               </div>
             <p style={{color:"black",textAlign:"center"}}>Thanks for participating!<br/>See you on the other side   </p>

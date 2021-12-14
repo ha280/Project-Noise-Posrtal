@@ -40,11 +40,11 @@ const SelectCard = ({ product,onSelect,shouldSelect }) => {
           {product.code}
         </div>
       </div>
-      <Modal show={clicked}  onHide={() => setClicked(false)}>
+      <Modal className='modal-1' show={clicked}  onHide={() => setClicked(false)}>
         <Modal.Header closeButton className=''>
           <Modal.Title className=''></Modal.Title>
         </Modal.Header>
-        <Modal.Body className=''>
+        <Modal.Body className='modal-body-1'>
               <h4 className='primary-text' style={{textAlign:"center",fontSize:"15px !important"}}>Cannot Select More than 6 cards</h4>
               
         </Modal.Body>
