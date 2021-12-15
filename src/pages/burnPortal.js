@@ -142,23 +142,25 @@ const BurnPortal = ({connection}) => {
                     //supply should not be zero
                     if(tokenSupply.value.uiAmount > 0){                    
                       noises.push(mint);
-                      fetch(data.data.uri)
-                      .then(response => response.json())
-                      .then(data => {                    
-                        // image url for the noise
-                        // console.log("uri ", data);
-
-                        cardObj = {                          
-                          "code": data.name,
-                          "mint": mint,
-                          "owner": "",
-                          "src": data.image,
-                          "traits": data.attributes
-                        }
-                        // console.log("cardInfo", cardInfo);
-                        card.push(cardObj);
-                      });                  
-                    }                  
+                      if(data.data != null && data.data.uri != null){
+                        fetch(data.data.uri)
+                        .then(response => response.json())
+                        .then(data => {                    
+                          // image url for the noise
+                          // console.log("uri ", data);
+  
+                          cardObj = {                          
+                            "code": data.name,
+                            "mint": mint,
+                            "owner": "",
+                            "src": data.image,
+                            "traits": data.attributes
+                          }
+                          // console.log("cardInfo", cardInfo);
+                          card.push(cardObj);
+                        });                  
+                      }     
+                      }            
                 });
               // }
             }
