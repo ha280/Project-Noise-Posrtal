@@ -144,46 +144,62 @@ const BurnPortal = ({ connection }) => {
               // console.log("public key", wallet.publicKey.toString());
               // console.log("public nft owner", myNFT.owner);
 
-              let cardObj = {};
-              // console.log("new mint", mint);                              
-              fetch('https://api.theblockchainapi.com/v1/solana/nft/mainnet-beta/' + mint, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'APIKeyID': '2GRBPe5hXqHJlDr', // TODO: need to change with the paid version
-                  'APISecretKey': '2SOw9vpqVlTQBGa' // TODO: need to change with the paid version
-                }
-              }) //mainnet api
-                // fetch('https://api.solscan.io/account?address=' + mint) //mainnet api
-                // fetch('https://api-devnet.solscan.io/account?address=' + mint) //devnet api
-                .then(response => response.json())
-                .then(data => {
-                  // name of the noise
-                  console.log("metadata", data);
+              //supply should not be zero
+              if (tokenSupply.value.uiAmount > 0) {
+                let cardObj = {};
 
-                  //supply should not be zero
-                  if (tokenSupply.value.uiAmount > 0) {
-                    noises.push(mint);
-                    if (data.data != null && data.data.uri != null) {
-                      fetch(data.data.uri)
-                        .then(response => response.json())
-                        .then(data => {
-                          // image url for the noise
-                          // console.log("uri ", data);
-
-                          cardObj = {
-                            "code": data.name,
-                            "mint": mint,
-                            "owner": "",
-                            "src": data.image,
-                            "traits": data.attributes
-                          }
-                          // console.log("cardInfo", cardInfo);
-                          card.push(cardObj);
-                        });
-                    }
+                //check nft owner
+                fetch('https://api.theblockchainapi.com/v1/solana/nft/mainnet-beta/' + mint + "/owner", {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'APIKeyID': '2GRBPe5hXqHJlDr', // TODO: need to change with the paid version
+                    'APISecretKey': '2SOw9vpqVlTQBGa' // TODO: need to change with the paid version
                   }
-                });
-              // }
+                })
+                .then(response => response.json())
+                .then(data => {                  
+                  console.log("nft owner", data.nft_owner);
+
+                  if(data.nft_owner == walletAddr){
+                    fetch('https://api.theblockchainapi.com/v1/solana/nft/mainnet-beta/' + mint, {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'APIKeyID': '2GRBPe5hXqHJlDr', // TODO: need to change with the paid version
+                        'APISecretKey': '2SOw9vpqVlTQBGa' // TODO: need to change with the paid version
+                      }
+                    }) //mainnet api
+                    // fetch('https://api.solscan.io/account?address=' + mint) //mainnet api
+                    // fetch('https://api-devnet.solscan.io/account?address=' + mint) //devnet api
+                    .then(response => response.json())
+                    .then(data => {
+                      // name of the noise
+                      console.log("metadata", data);
+                      
+                        noises.push(mint);
+                        if (data.data != null && data.data.uri != null) {
+                          fetch(data.data.uri)
+                            .then(response => response.json())
+                            .then(data => {
+                              // image url for the noise
+                              // console.log("uri ", data);
+
+                              cardObj = {
+                                "code": data.name,
+                                "mint": mint,
+                                "owner": "",
+                                "src": data.image,
+                                "traits": data.attributes
+                              }
+                              // console.log("cardInfo", cardInfo);
+                              card.push(cardObj);
+                            });
+                        }
+                      // }
+                    });
+                  }
+                  
+                });                
+              }
             }
           }
 
