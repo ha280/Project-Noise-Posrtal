@@ -1,7 +1,6 @@
 import './burn.css'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-import * as anchor from "@project-serum/anchor";
 import * as web3 from "@solana/web3.js";
 
 import {
@@ -9,44 +8,26 @@ import {
   TOKEN_PROGRAM_ID,
   Token
 } from "@solana/spl-token";
-import { Button, Col, Modal, Nav, Overlay, Row } from 'react-bootstrap';
+import { Col, Modal, Row } from 'react-bootstrap';
 import {
-  CandyMachine,
   awaitTransactionSignatureConfirmation,
   getCandyMachineState,
   mintOneToken,
 } from "../candy-machine";
-import { Program, Provider } from "@project-serum/anchor";
-import { faFire, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "react-loader-spinner";
 import NFTs from '@primenums/solana-nft-tools';
+import { Provider } from "@project-serum/anchor";
 import SelectCard from '../components/selectCard/selectCard'
 import allMints from '../mint.json'
+import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 import { useWallet } from '@solana/wallet-adapter-react';
 import web_hero_gif from '../assets/animationtest_2.gif';
 
 // import LogoWeb from '../assets/Landingweb
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -54,11 +35,35 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 let count = [];
 let noises = [];
 let cardInfo = [];
+
+const CustomLoader = ({ close, marginTop }) => (
+  <div className="load" style={close ? { display: "none" } : { display: "block", marginTop }}>
+    <Loader
+      type="Oval"
+      color="#000"
+      height={80}
+      width={80}
+      className="loader"
+    />
+    <p className='loader-desc'>This might take few seconds. Please wait...</p>
+  </div>
+)
+
+const ModalSuccessContent = () => (
+  <>
+    <h1 className='primary-text' style={{ textAlign: "center", fontSize: "28px !important" }}>Congratulations! <br />
+      On joining the club!</h1>
+    <div className='gifWeb' style={{ width: "459px", height: "459px", margin: "20px 120px" }}>
+      <img src={web_hero_gif} />
+    </div>
+    <p style={{ color: "black", textAlign: "center" }}>Thanks for participating!<br />See you on the other side   </p>
+  </>
+)
+
 const BurnPortal = ({ connection }) => {
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState(false);
   const [close, setClose] = useState(false);
-  const [noise, SetNoise] = useState('-');
   const [connect, SetConnect] = useState(false);
   const [nftInfo, SetNftInfo] = useState(false);
 
@@ -94,8 +99,6 @@ const BurnPortal = ({ connection }) => {
 
 
   const wallet = useWallet();
-  const [value, setValue] = useState({});
-  const [check, setCheck] = useState(false);
   // const [candyMachine, setCandyMachine] = useState<CandyMachine>();
 
   //GET details of the Noise NFTs a wallet holds
@@ -127,12 +130,12 @@ const BurnPortal = ({ connection }) => {
             if (allMints.includes(mint)) {
               console.log('mint', mint);
 
-              const tokenAddress = await Token.getAssociatedTokenAddress(
-                ASSOCIATED_TOKEN_PROGRAM_ID,
-                TOKEN_PROGRAM_ID,
-                new web3.PublicKey(mint),
-                wallet.publicKey
-              );
+              // const tokenAddress = await Token.getAssociatedTokenAddress(
+              //   ASSOCIATED_TOKEN_PROGRAM_ID,
+              //   TOKEN_PROGRAM_ID,
+              //   new web3.PublicKey(mint),
+              //   wallet.publicKey
+              // );
               // let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
               // console.log(tokenAddressBalance.value.amount);
               console.log("mint supply", new web3.PublicKey(mint));
@@ -156,49 +159,49 @@ const BurnPortal = ({ connection }) => {
                     'APISecretKey': '2SOw9vpqVlTQBGa' // TODO: need to change with the paid version
                   }
                 })
-                .then(response => response.json())
-                .then(data => {                  
-                  console.log("nft owner", data.nft_owner);
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log("nft owner", data.nft_owner);
 
-                  if(data.nft_owner == walletAddr){
-                    fetch('https://api.theblockchainapi.com/v1/solana/nft/mainnet-beta/' + mint, {
-                      headers: {
-                        'Content-Type': 'application/json',
-                        'APIKeyID': '2GRBPe5hXqHJlDr', // TODO: need to change with the paid version
-                        'APISecretKey': '2SOw9vpqVlTQBGa' // TODO: need to change with the paid version
-                      }
-                    }) //mainnet api
-                    // fetch('https://api.solscan.io/account?address=' + mint) //mainnet api
-                    // fetch('https://api-devnet.solscan.io/account?address=' + mint) //devnet api
-                    .then(response => response.json())
-                    .then(data => {
-                      // name of the noise
-                      console.log("metadata", data);
-                      
-                        noises.push(mint);
-                        if (data.data != null && data.data.uri != null) {
-                          fetch(data.data.uri)
-                            .then(response => response.json())
-                            .then(data => {
-                              // image url for the noise
-                              // console.log("uri ", data);
-
-                              cardObj = {
-                                "code": data.name,
-                                "mint": mint,
-                                "owner": "",
-                                "src": data.image,
-                                "traits": data.attributes
-                              }
-                              // console.log("cardInfo", cardInfo);
-                              card.push(cardObj);
-                            });
+                    if (data.nft_owner == walletAddr) {
+                      fetch('https://api.theblockchainapi.com/v1/solana/nft/mainnet-beta/' + mint, {
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'APIKeyID': '2GRBPe5hXqHJlDr', // TODO: need to change with the paid version
+                          'APISecretKey': '2SOw9vpqVlTQBGa' // TODO: need to change with the paid version
                         }
-                      // }
-                    });
-                  }
-                  
-                });                
+                      }) //mainnet api
+                        // fetch('https://api.solscan.io/account?address=' + mint) //mainnet api
+                        // fetch('https://api-devnet.solscan.io/account?address=' + mint) //devnet api
+                        .then(response => response.json())
+                        .then(data => {
+                          // name of the noise
+                          console.log("metadata", data);
+
+                          noises.push(mint);
+                          if (data.data != null && data.data.uri != null) {
+                            fetch(data.data.uri)
+                              .then(response => response.json())
+                              .then(data => {
+                                // image url for the noise
+                                // console.log("uri ", data);
+
+                                cardObj = {
+                                  "code": data.name,
+                                  "mint": mint,
+                                  "owner": "",
+                                  "src": data.image,
+                                  "traits": data.attributes
+                                }
+                                // console.log("cardInfo", cardInfo);
+                                card.push(cardObj);
+                              });
+                          }
+                          // }
+                        });
+                    }
+
+                  });
               }
             }
           }
@@ -277,7 +280,7 @@ const BurnPortal = ({ connection }) => {
           signTransaction: wallet.signTransaction,
         };
 
-        const { candyMachine, goLiveDate, itemsRemaining, itemsAvailable, itemsRedeemed } =
+        const { candyMachine } =
           await getCandyMachineState(
             anchorWallet,
             "Bnmh7NM1yB2wQDKVW6Tu7fLuEgtc1RkjXqKgk6HrzZHY", //candy machine id
@@ -326,9 +329,6 @@ const BurnPortal = ({ connection }) => {
   }
 
   return (
-    // <ConnectionProvider endpoint={endpoint}>
-    //   <WalletProvider wallets={wallets} autoConnect>
-    //     <WalletModalProvider >
     <>
       <div className='section-2new' style={{ marginBottom: "76px" }}>
         <Row className='px-3 py-0'>
@@ -343,25 +343,13 @@ const BurnPortal = ({ connection }) => {
               <p style={{ marginBottom: "43px" }}> NOTE: If you don’t have enough noises - <a href="https://magiceden.io/marketplace/project_noise">buy here</a> </p>
             </div>
             <div style={{ minHeight: "50vh" }}>
-              <div style={{ borderBottom: "solid 2px black" }}>
-                {/* <Loader type="Oval" color="#00BFFF" height={80} width={80} /> */}
-                <p>My Noises
-                  {/* ({cardInfo.length}) */}
-                </p>
+              <div style={{ borderBottom: "solid 2px black", marginBottom: "2%" }}>
+                <p>My Noises</p>
               </div>
               <div>
                 {connect ?
-
                   <Row className='mr-0' style={{ position: "relative" }}>
-                    <div className="load" style={close ? { display: "none" } : { display: "block" }}>
-                      <Loader
-                        type="Oval"
-                        color="#000"
-                        height={80}
-                        width={80}
-                        className="loader"
-                      />
-                    </div>
+                    <CustomLoader close={close} marginTop={"4%"} />
 
                     {nftInfo.map((product, i) => (
 
@@ -374,11 +362,8 @@ const BurnPortal = ({ connection }) => {
                     ))}
                   </Row>
                   //3 secs
-
                   :
-                  ""
-                  // <ConnectButton className="burnbutton">Connect Wallet</ConnectButton>
-                  // <button className="burnbutton" style={{marginTop:"43px",border:"0"}}>Connect Wallet</button>
+                  null
                 }
 
               </div>
@@ -412,16 +397,6 @@ const BurnPortal = ({ connection }) => {
                       style={{ width: "1rem", margin: "0 0.5rem 0 0" }}
                     />
                     {isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
-                  {/* <button style={{padding:"10px",border:"0",}} onClick={()=>{
-                            // setClose(true);
-                            count=[];
-                            }}>
-                          <FontAwesomeIcon
-                                icon={faTimes}
-                                style={{ width: "1rem",  margin: "0 0.5rem 0 0",opacity:"0.4" }}
-                            />
-                            <span style={{opacity:"0.4"}}>Cancel</span>
-                            </button> */}
                 </div>
               </div>
               :
@@ -442,21 +417,13 @@ const BurnPortal = ({ connection }) => {
           <Row >
             <Col lg={3}></Col>
             <Col lg={6} className='px-3'>
-              <h1 className='primary-text' style={{ textAlign: "center", fontSize: "28px !important" }}>Congratulations! <br />
-                On joining the club!</h1>
-              <div className='gifWeb' style={{ width: "459px", height: "459px", margin: "20px 120px" }}>
-                <img src={web_hero_gif} />
-              </div>
-              <p style={{ color: "black", textAlign: "center" }}>Thanks for participating!<br />See you on the other side   </p>
+              <ModalSuccessContent />
             </Col>
             <Col lg={3}></Col>
           </Row>
         </Modal.Body>
       </Modal>
     </>
-    // </WalletModalProvider>
-    //   </WalletProvider>
-    // </ConnectionProvider>
   );
 };
 

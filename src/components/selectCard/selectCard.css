@@ -1,115 +1,120 @@
-.gallerycard{
-    background-color: #ffffff;
-    padding : 12px;
-    border: solid 3px white;
-    position: relative;
-    height: 17.5rem;
-  }
-  .clickedgallryCard{
-    background-color: #ffffff;
-    padding : 12px;
-    position: relative;
-    border: solid 3px black;
-    height: 17.5rem;
-  }
-  
-  .gallerycard:hover{
-    border: solid 3px transparent;
-    border-image: linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00);
-    border-image-slice: 1;
-  }
-  
-  
-  .card-image img{
-    text-align: center;
-    min-height: 200px;
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-  }
-  
-  .image-code{
-    padding-top: 24px;
-  }
-  
-  .container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    height: 25px;
-    opacity: 0;
-    width: 25px;
-    background-color: #eee;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  
-  
-  /* When the checkbox is checked, add a blue background */
-  .container input:checked ~ .checkmark {
-    background-color: black;
-    opacity: 1;
-    border: solid 2px white
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .container input:checked ~ .checkmark:after {
-    display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .container .checkmark:after {
-    left: 8px;
-    top: 3px;
-    width: 6px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-  }
-  
-  .modal-body-1{
-    padding-bottom: 10px !important;
-  }
-  .modal-1{
-    width: 40rem;
-    height: 6rem;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    -webkit-transform: translate(-50%,-50%);
-    -moz-transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    -o-transform: translate(-50%,-50%);
+.gallerycard {
+	background-color: #ffffff;
+	padding: 2%;
+	border: solid 3px white;
+	position: relative;
+	/* height: 17.5rem; */
 }
-  
-  @media screen and (max-width: 812px) {
-    .mobile-owner{
-      visibility: visible;
-      display: block;
-    }
-  
-    .web-owner{
-      visibility: hidden;
-      display: none;
-    }
-  
-  }
+.clickedgallryCard {
+	background-color: #ffffff;
+	padding: 2%;
+	position: relative;
+	border: solid 3px black;
+	/* height: 17.5rem; */
+}
+
+.gallerycard:hover {
+	border: solid 3px transparent;
+	border-image: linear-gradient(90deg, #0effb7, #ff130d, #ffff00);
+	border-image-slice: 1;
+}
+
+.card-image img {
+	text-align: center;
+	min-height: 200px;
+	max-width: 100%;
+	max-height: 250px;
+	display: block;
+}
+
+.image-code {
+	padding-top: 24px;
+}
+
+.container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* check logo instead of checkmark */
+.check-logo {
+	position: absolute;
+	top: -12px;
+	right: -6px;
+	width: 20px;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	height: 25px;
+	opacity: 0;
+	width: 25px;
+	background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+	background-color: black;
+	opacity: 1;
+	border: solid 2px white;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+	content: '';
+	position: absolute;
+	display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+	display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+	left: 8px;
+	top: 3px;
+	width: 6px;
+	height: 12px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.modal-body-1 {
+	padding-bottom: 10px !important;
+}
+.modal-1 {
+	width: 40rem;
+	height: 6rem;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 812px) {
+	.mobile-owner {
+		visibility: visible;
+		display: block;
+	}
+
+	.web-owner {
+		visibility: hidden;
+		display: none;
+	}
+}
