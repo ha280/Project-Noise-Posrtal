@@ -16,6 +16,7 @@ import {
 } from "../candy-machine";
 import { useEffect, useState } from 'react';
 
+import { ReactComponent as FireLogo } from "../assets/fire.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "react-loader-spinner";
 import NFTs from '@primenums/solana-nft-tools';
@@ -25,7 +26,6 @@ import allMints from '../mint.json'
 import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 import { useWallet } from '@solana/wallet-adapter-react';
-import web_hero_gif from '../assets/animationtest_2.gif';
 
 // import LogoWeb from '../assets/Landingweb
 
@@ -50,14 +50,20 @@ const CustomLoader = ({ close, marginTop }) => (
 )
 
 const ModalSuccessContent = () => (
-  <>
-    <h1 className='primary-text' style={{ textAlign: "center", fontSize: "28px !important" }}>Congratulations! <br />
-      On joining the club!</h1>
-    <div className='gifWeb' style={{ width: "459px", height: "459px", margin: "20px 120px" }}>
-      <img src={web_hero_gif} />
+  <div className='final-success-modal'>
+    <h1 className="title">Congratulations! You’ve burned 6 Noises </h1>
+    <div className='logo-container'>
+      <FireLogo />
+      <FireLogo />
+      <FireLogo />
+      <FireLogo />
+      <FireLogo />
+      <FireLogo />
     </div>
-    <p style={{ color: "black", textAlign: "center" }}>Thanks for participating!<br />See you on the other side   </p>
-  </>
+    <p className='desc'>
+      NOISE PASS <span style={{ color: "#050505", opacity: "0.7" }}>airdrops will start from</span> 21st DEC
+    </p>
+  </div>
 )
 
 const BurnPortal = ({ connection }) => {
@@ -328,6 +334,10 @@ const BurnPortal = ({ connection }) => {
 
   }
 
+  /**
+   * Select 6 noises which you want to burn. BURN!!! Pass airdrops will start from 21st Dec NOTE: If you don’t have enough noises - buy here CAUTION: Keep atleast 0.1 sol in your wallet for transaction.
+   */
+
   return (
     <>
       <div className='section-2new' style={{ marginBottom: "76px" }}>
@@ -335,12 +345,24 @@ const BurnPortal = ({ connection }) => {
           <Col lg={3} className='p-0'></Col>
           <Col lg={6} className='p-0'>
             <div>
-              <h2>Burning mechanism to claim Noise Pass!</h2>
+              <h2>Steps to Burn:</h2>
               <ol type="1">
                 <li style={{ color: "#050505", opacity: "0.7", paddingTop: "7px", paddingBottom: "2px" }}>Select 6 noises which you want to burn.</li>
-                <li style={{ color: "#050505", opacity: "0.7", paddingTop: "7px", paddingBottom: "2px" }}>Burn & claim</li>
+                <li style={{ color: "#050505", opacity: "0.7", paddingTop: "7px", paddingBottom: "2px" }}>BURN!!!</li>
+                <li style={{ color: "#050505", opacity: "0.7", paddingTop: "7px", paddingBottom: "2px" }}>
+                  Pass airdrops will start from 21st Dec
+                </li>
               </ol>
-              <p style={{ marginBottom: "43px" }}> NOTE: If you don’t have enough noises - <a href="https://magiceden.io/marketplace/project_noise">buy here</a> </p>
+              <p style={{ marginBottom: 0 }}> NOTE:
+                <span style={{ color: "#050505", opacity: "0.7" }}>
+                  If you don’t have enough noises - <a href="https://magiceden.io/marketplace/project_noise">buy here</a>
+                </span>
+              </p>
+              <p style={{ marginBottom: "6%" }}>
+                CAUTION: <span style={{ color: "#050505", opacity: "0.7" }}>
+                  Keep atleast 0.1 sol in your wallet for transaction.
+                </span>
+              </p>
             </div>
             <div style={{ minHeight: "50vh" }}>
               <div style={{ borderBottom: "solid 2px black", marginBottom: "2%" }}>
@@ -386,8 +408,8 @@ const BurnPortal = ({ connection }) => {
               <div style={{ display: "inline-block", width: "100%", padding: "10px 0 20px 0" }}>
                 <p style={{ float: "left", color: "black", marginTop: "10px" }}>{count.length} Noises selected</p>
                 <div style={{ float: "right" }}>
-                  <button disabled={(count.length < 6 || count.length > 6) || isLoading}
-                    // onClick={()=>{setFinal(true);}}
+                  <button
+                    disabled={(count.length < 6 || count.length > 6) || isLoading}
                     onClick={onBurn}
                     style={isLoading || count.length < 6 || count.length > 6 ? { background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))", marginRight: "10px", padding: "10px", border: "0" } : { backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)", marginRight: "10px", padding: "10px", border: "0" }}
                   >
@@ -414,13 +436,7 @@ const BurnPortal = ({ connection }) => {
           <Modal.Title className='modal-title'></Modal.Title>
         </Modal.Header>
         <Modal.Body className='modal-body'>
-          <Row >
-            <Col lg={3}></Col>
-            <Col lg={6} className='px-3'>
-              <ModalSuccessContent />
-            </Col>
-            <Col lg={3}></Col>
-          </Row>
+          <ModalSuccessContent />
         </Modal.Body>
       </Modal>
     </>

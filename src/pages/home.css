@@ -37,7 +37,8 @@
 }
 
 .gifWeb {
-	width: 5% !important;
+	width: 40%;
+	margin-left: 4%;
 }
 
 .gifWeb img {
@@ -58,7 +59,7 @@
 	height: 100%;
 	margin-top: auto;
 	margin-bottom: auto;
-	width: 36% !important;
+	min-width: 40%;
 	background: transparent !important;
 }
 .mint-container {
@@ -71,24 +72,29 @@
 
 .section-2 {
 	text-align: center;
-	padding: 160px 0px;
+	/* padding: 160px 0px; */
 	border: solid 5px transparent;
 	border-image: linear-gradient(90deg, #0effb7, #ff130d, #ffff00);
 	border-image-slice: 1;
 }
 .section-2new {
 	text-align: left;
-	padding: 160px 0px;
+	/* padding: 160px 0px; */
 	border: solid 5px transparent;
 	border-image: linear-gradient(90deg, #0effb7, #ff130d, #ffff00);
 	border-image-slice: 1;
 }
 
 .section-2new .burn-section {
+	margin-top: 5%;
 	/* opacity: 0.2; */
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	padding-bottom: 2%;
 	margin-bottom: 2%;
+}
+
+#bold-title {
+	margin-bottom: 4% !important;
 }
 
 .section-2new .bold-list li {
@@ -129,7 +135,12 @@
 	opacity: 0.6;
 }
 
+.section-2new .dont-burn-section {
+	margin-top: 5%;
+}
+
 .section-2new .mechanics-section {
+	margin-top: 5%;
 	margin-bottom: 4%;
 }
 
@@ -276,13 +287,38 @@
 	padding-top: 10px;
 }
 
-@media screen and (max-width: 812px) {
-	.footer-brand {
-		visibility: hidden;
-		display: none;
+@media screen and (min-width: 320px) and (max-width: 1080px) {
+	.main-section {
+		display: flex;
+		flex-direction: column;
 	}
 
-	.main-section {
+	.mint-sectionnew {
+		width: 100% !important;
+		margin-bottom: 8%;
+	}
+
+	.main-section .cardDivLarge {
+		width: fit-content;
+	}
+
+	.section-1 {
+		overflow-y: scroll;
+	}
+
+	.gifWeb {
+		width: 100% !important;
+		margin: 0;
+	}
+
+	.gifWeb img {
+		max-width: 100% !important;
+		max-width: 100% !important;
+	}
+}
+
+@media screen and (max-width: 812px) {
+	.footer-brand {
 		visibility: hidden;
 		display: none;
 	}
@@ -291,17 +327,6 @@
 		display: block !important;
 		position: relative !important;
 		visibility: visible !important;
-	}
-
-	.gifWeb {
-		position: relative;
-		width: 100% !important;
-		display: none !important;
-	}
-	.gifMobile {
-		position: relative;
-		width: 100%;
-		display: block !important;
 	}
 
 	.mintComponent {

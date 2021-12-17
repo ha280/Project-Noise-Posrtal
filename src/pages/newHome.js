@@ -1,15 +1,11 @@
 import './home.css'
 
 import { Button, Col, Nav, Row } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+
 import {
-  CandyMachine,
   getCandyMachineState,
 } from "../candy-machine";
-import { useEffect, useMemo, useState } from 'react';
-
-import { ReactComponent as Logo2Svg } from '../assets/logo2.svg';
-import { ReactComponent as LogoSvg } from '../assets/logo.svg';
-import link_arrow from '../assets/link_arrow.png';
 import { useHistory } from "react-router-dom";
 import { useWallet } from '@solana/wallet-adapter-react';
 import web_hero_gif from '../assets/animationtest_2.gif';
@@ -66,45 +62,37 @@ const NewHome = ({ connection }) => {
     <>
       <div className='section-1 dark-bg'>
         <Row className='px-3 m-0'>
-          <Col lg={2}></Col>
+          <Col xs={0} sm={0} lg={2}></Col>
 
-          <Col lg={8}>
+          <Col xs={12} sm={12} lg={8}>
             <div className='main-section'>
               <div className='mint-sectionnew'>
                 <div className='mint-container'>
-                  <h1 >Join the <br /> Noise Club!</h1>
+                  <h1>Your gateway to a Premium Membership!</h1>
                   <p>
-                    To claim the Noise pass you need to burn 6 noises.
+                    Burn 6 Noises to claim the NOISE PASS! Pass airdrops will start from 21st Dec
                   </p>
                   {/* <Button variant='secondary' className='btn-primary2 m-0 btn-block'> SOLD OUT ! </Button> */}
-                  {wallet.connected ? (<div className='outline-divnew'>Status - {itemsRedeemed}/{itemsAvailable} Claimed</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)}
-                  <Button href="/burnportal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
+                  {wallet.connected ? (<div className='outline-divnew'>Passes Claimed - {itemsRedeemed}/{itemsAvailable} Claimed</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)}
+                  <Button className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
                 </div>
               </div>
-              <div className='gifWeb' style={{ marginLeft: "4rem" }}>
+              <div className='gifWeb'>
                 <img src={web_hero_gif} />
               </div>
             </div>
           </Col>
-          {/* <Col lg={6} className='mobile-section m-0 p-0'>
-            <div className='mobileGifComponent'>
-              <img src={mobile_hero_gif} alt='gif' className='gifMobile' />
-            </div>
-            <div className='mobileMintComponent p-0'>
-              <Soldout2 />
-            </div>
-          </Col> */}
 
-          <Col lg={3}></Col>
+          <Col xs={0} sm={0} lg={2}></Col>
         </Row>
       </div>
 
       <div className='section-2new'>
         <Row className='px-3 py-0'>
-          <Col lg={3} className='p-0'></Col>
-          <Col lg={6} className='p-0'>
+          <Col lg={2} className='p-0'></Col>
+          <Col lg={8} className='p-0'>
             <div className="burn-section">
-              <h1 >Why Burn?</h1>
+              <h1 id="bold-title">Why Burn?</h1>
               <ul className='bold-list' type="disc">
                 <li>With every 6 noises you burn, you will receive 1 Noise pass. </li>
                 <li>Each Noise Pass will guarantee one free airdrop from all the future Project Noise curations.</li>
@@ -128,7 +116,7 @@ const NewHome = ({ connection }) => {
               </ol>
             </div>
             <div className="dont-burn-section">
-              <h1 style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>What if I dont burn?</h1>
+              <h1 id="bold-title">What if I dont burn?</h1>
 
               <ul className='bold-list' type="disc">
                 <li>Hold 3 - get eligible for giveaway raffles.</li>
@@ -136,7 +124,7 @@ const NewHome = ({ connection }) => {
               </ul>
             </div>
             <div className='mechanics-section'>
-              <h1>MECHANICS</h1>
+              <h1 id="bold-title">MECHANICS</h1>
               <ul className='bold-list' type="disc">
                 <li>Burning will only happen with the pieces of our Genesis Collection – REF1ECT </li>
                 <li>The idea behind this is to further reduce the total supply of the whole collection.</li>
@@ -156,15 +144,15 @@ const NewHome = ({ connection }) => {
               </p>
             </div>
           </Col>
-
+          <Col lg={2}></Col>
         </Row>
 
       </div>
 
       <div className='section-8 dark-bg px-3'>
         <Row>
-          <Col lg={3}></Col>
-          <Col lg={6} className='footer pt-1'>
+          <Col lg={2}></Col>
+          <Col lg={8} className='footer pt-1'>
             <Row className='pt-0 pb-2'>
               <Col lg={4} className='footer-brand pt-4 px-0'><p style={{ color: 'white' }}>Project Noise</p></Col>
               <Col lg={5}></Col>
@@ -181,7 +169,7 @@ const NewHome = ({ connection }) => {
               </Col>
             </Row>
           </Col>
-          <Col lg={3}></Col>
+          <Col lg={2}></Col>
         </Row>
       </div>
 
