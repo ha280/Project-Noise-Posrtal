@@ -74,7 +74,8 @@ const NewHome = ({ connection }) => {
                   </p>
                   {/* <Button variant='secondary' className='btn-primary2 m-0 btn-block'> SOLD OUT ! </Button> */}
                   {wallet.connected ? (<div className='outline-divnew'>Passes Claimed - {itemsRedeemed}/{itemsAvailable} Claimed</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)}
-                  <Button className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
+                  {/* <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button> */}
+                  <button className='disabled-btn'>Go to Burn Potal {">"} </button>
                 </div>
               </div>
               <div className='gifWeb'>

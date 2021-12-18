@@ -160,6 +160,15 @@
 	opacity: 0.6;
 }
 
+.disabled-btn {
+	width: 20rem;
+	background-color: #0a0a0a;
+	border: 1px solid #ffffff;
+	color: #ffffff;
+	font-size: 20px;
+	padding: 2%;
+}
+
 .section-2 h5 {
 	padding-top: 12px;
 	margin: 0;

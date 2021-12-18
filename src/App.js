@@ -1,26 +1,37 @@
-import {useMemo} from 'react';
 import './App.css';
-import TopNav from './components/TopNav/TopNav';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-//FOR WALLET CONNECTION
+import * as web3 from "@solana/web3.js";
+
 import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { WalletAdapterNetwork, WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import {
-  WalletModalProvider,
   WalletDisconnectButton,
+  WalletModalProvider,
   WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
-import { WalletAdapterNetwork, WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import {
   getPhantomWallet,
   getSolflareWallet,
   getSolletWallet,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
-import * as web3 from "@solana/web3.js";
 
-import NewHome from './pages/newHome';
 import BurnPortal from './pages/burnPortal';
+import NewHome from './pages/newHome';
+import TopNav from './components/TopNav/TopNav';
+import { clusterApiUrl } from '@solana/web3.js';
+import { useMemo } from 'react';
+
+//FOR WALLET CONNECTION
+
+
+
+
+
+
+
+
+
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -34,9 +45,9 @@ function App() {
 
   // const rpcHost = "https://explorer-api.devnet.solana.com";
   const rpcHost = "https://dry-holy-paper.solana-mainnet.quiknode.pro/5d51cc47b9102310825d0b49b644592d2d2fb877/"; //TODO: need to update it with noise quicknode
-const connection = new web3.Connection(rpcHost, "recent");
+  const connection = new web3.Connection(rpcHost, "recent");
 
-console.log("connection", connection);
+  console.log("connection", connection);
   // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
   // Only the wallets you configure here will be compiled into your application
   const wallets = useMemo(() => [
@@ -48,18 +59,16 @@ console.log("connection", connection);
   return (
     <Router>
       <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider >
-          <TopNav />
-          <Switch>
-            {/* <Route exact path='/' component={newHome} /> */}
-            <Route exact path='/' render={() => <NewHome connection={connection} />}/>
-            {/* <Route exact path='/burnPortal' component={BurnPortal} connection={connection} /> */}
-            <Route exact path='/burnPortal' render={() => <BurnPortal connection={connection} />} />
-          </Switch>
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider >
+            <TopNav />
+            <Switch>
+              <Route exact path='/' render={() => <NewHome connection={connection} />} />
+              <Route exact path='/xyz-123' render={() => <BurnPortal connection={connection} />} />
+            </Switch>
           </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+        </WalletProvider>
+      </ConnectionProvider>
     </Router>
 
   );
