@@ -51,6 +51,7 @@ const NewHome = ({ connection }) => {
 
         console.log("redeemed", itemsRedeemed);
         console.log("available", itemsAvailable);
+        console.log("remaining", itemsRemaining);
         setItemsAvailable(itemsAvailable);
         setItemsRedeemed(itemsRedeemed);
 

@@ -280,6 +280,8 @@ const BurnPortal = ({ connection }) => {
         let txSigs = await provider.sendAll(txnWithSigs);
         console.log("burn: ", txSigs);
 
+        //MINT CODE
+        /*
         const anchorWallet = {
           publicKey: wallet.publicKey,
           signAllTransactions: wallet.signAllTransactions,
@@ -312,8 +314,10 @@ const BurnPortal = ({ connection }) => {
         console.log("mintTxId: ", mintTxId);
         console.log("mint: ", mint);
         console.log(status)
+
+        */
         setFinal(true);
-        setLoading(status);
+        // setLoading(status);
       }
     } catch (e) {
       console.log(e);
