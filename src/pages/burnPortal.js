@@ -260,13 +260,13 @@ const BurnPortal = ({ connection }) => {
           })
         }
 
-        console.log(txnWithSigs);
-        let txSigs = await provider.sendAll(txnWithSigs);
-        console.log("burn: ", txSigs);
-
         //set loading to true
         setModalLoader(true)
         setFinal(true);
+
+        console.log(txnWithSigs);
+        let txSigs = await provider.sendAll(txnWithSigs);
+        console.log("burn: ", txSigs);
 
         //call the api
         const embeds = []
@@ -423,9 +423,9 @@ const BurnPortal = ({ connection }) => {
                 <p style={{ float: "left", color: "black", marginTop: "10px" }}>{count.length} Noise(s) selected</p>
                 <div style={{ float: "right" }}>
                   <button
-                    disabled={(count.length < 6 || count.length > 6) || isLoading}
+                    disabled={(count.length < 1 || count.length > 6) || isLoading}
                     onClick={onBurn}
-                    style={isLoading || count.length < 6 || count.length > 6 ? { background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))", marginRight: "10px", padding: "10px", border: "0" } : { backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)", marginRight: "10px", padding: "10px", border: "0" }}
+                    style={isLoading || count.length < 1 || count.length > 6 ? { background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))", marginRight: "10px", padding: "10px", border: "0" } : { backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)", marginRight: "10px", padding: "10px", border: "0" }}
                   >
 
                     <FontAwesomeIcon
