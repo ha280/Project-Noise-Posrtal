@@ -10,19 +10,11 @@ import { useHistory } from "react-router-dom";
 import { useWallet } from '@solana/wallet-adapter-react';
 import web_hero_gif from '../assets/animationtest_2.gif';
 
-// import LogoWeb from '../assets/Landingweb
-
-
-
-
-
-
 const NewHome = ({ connection }) => {
 
   const wallet = useWallet();
   const [itemsAvailable, setItemsAvailable] = useState();
   const [itemsRedeemed, setItemsRedeemed] = useState();
-  const [itemsRemaining, setItemsRemaining] = useState();
   const history = useHistory();
 
   useEffect(() => {
@@ -42,7 +34,7 @@ const NewHome = ({ connection }) => {
           signTransaction: wallet.signTransaction,
         };
 
-        const { candyMachine, goLiveDate, itemsRemaining, itemsAvailable, itemsRedeemed } =
+        const { itemsRemaining, itemsAvailable, itemsRedeemed } =
           await getCandyMachineState(
             anchorWallet,
             "Bnmh7NM1yB2wQDKVW6Tu7fLuEgtc1RkjXqKgk6HrzZHY", //candy machine id
@@ -57,7 +49,7 @@ const NewHome = ({ connection }) => {
 
       }
     })();
-  }, [wallet]);
+  }, [wallet, connection, history]);
 
   return (
     <>
@@ -74,13 +66,13 @@ const NewHome = ({ connection }) => {
                     Burn 6 Noises to claim the NOISE PASS! Pass airdrops will start from 21st Dec
                   </p>
                   {/* <Button variant='secondary' className='btn-primary2 m-0 btn-block'> SOLD OUT ! </Button> */}
-                  {wallet.connected ? (<div className='outline-divnew'>Passes Claimed - {itemsRedeemed}/{itemsAvailable} Claimed</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)}
-                  {/* <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button> */}
-                  <button className='disabled-btn'>Go to Burn Potal {">"} </button>
+                  {wallet.connected ? (<div className='outline-divnew'>Status - {itemsRedeemed}/{itemsAvailable} Passes Claimed!</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)}
+                  <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
+                  {/* <button className='disabled-btn'>Go to Burn Potal {">"} </button> */}
                 </div>
               </div>
               <div className='gifWeb'>
-                <img src={web_hero_gif} />
+                <img src={web_hero_gif} alt="home" />
               </div>
             </div>
           </Col>

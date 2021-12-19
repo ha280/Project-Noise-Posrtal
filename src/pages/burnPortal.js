@@ -16,6 +16,7 @@ import {
 } from "../candy-machine";
 import { useEffect, useState } from 'react';
 
+import { ReactComponent as CloseLogo } from "../assets/close.svg"
 import { ReactComponent as FireLogo } from "../assets/fire.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "react-loader-spinner";
@@ -23,11 +24,10 @@ import NFTs from '@primenums/solana-nft-tools';
 import { Provider } from "@project-serum/anchor";
 import SelectCard from '../components/selectCard/selectCard'
 import allMints from '../mint.json'
+import axios from "axios"
 import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 import { useWallet } from '@solana/wallet-adapter-react';
-
-// import LogoWeb from '../assets/Landingweb
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -36,8 +36,8 @@ let count = [];
 let noises = [];
 let cardInfo = [];
 
-const CustomLoader = ({ close, marginTop }) => (
-  <div className="load" style={close ? { display: "none" } : { display: "block", marginTop }}>
+const CustomLoader = ({ close, marginTop, paddingTop = 0 }) => (
+  <div className="load" style={close ? { display: "none" } : { display: "block", marginTop, paddingTop }}>
     <Loader
       type="Oval"
       color="#000"
@@ -49,7 +49,7 @@ const CustomLoader = ({ close, marginTop }) => (
   </div>
 )
 
-const ModalSuccessContent = () => (
+const ModalSuccessContent = ({ setFinal }) => (
   <div className='final-success-modal'>
     <h1 className="title">Congratulations! You’ve burned 6 Noises </h1>
     <div className='logo-container'>
@@ -63,6 +63,7 @@ const ModalSuccessContent = () => (
     <p className='desc'>
       NOISE PASS <span style={{ color: "#050505", opacity: "0.7" }}>airdrops will start from</span> 21st DEC
     </p>
+    <CloseLogo onClick={() => setFinal(false)} className='success-modal-close-icon' />
   </div>
 )
 
@@ -71,9 +72,15 @@ const BurnPortal = ({ connection }) => {
   const [final, setFinal] = useState(false);
   const [close, setClose] = useState(false);
   const [connect, SetConnect] = useState(false);
-  const [nftInfo, SetNftInfo] = useState(false);
+  const [nftInfo, SetNftInfo] = useState([]);
 
   const [isLoading, setLoading] = useState(false);
+  const [modalLoader, setModalLoader] = useState(false);
+  const wallet = useWallet();
+  const history = useHistory();
+
+  const discordAPI = "https://mint.pricklypetesplatoon.army/noise/burn"
+
   function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 2000));
   }
@@ -86,12 +93,7 @@ const BurnPortal = ({ connection }) => {
     }
   }, [isLoading]);
 
-
-
   const countfunc = (product, isSelected) => {
-    console.log("count", product);
-    //   console.log(isSelected);
-    // console.log(count);
     if (isSelected) {
       const filteredPeople = count.filter((item) => item !== product);
       count = filteredPeople;
@@ -102,10 +104,6 @@ const BurnPortal = ({ connection }) => {
     console.log(count);
 
   }
-
-
-  const wallet = useWallet();
-  // const [candyMachine, setCandyMachine] = useState<CandyMachine>();
 
   //GET details of the Noise NFTs a wallet holds
   useEffect(() => {
@@ -136,22 +134,9 @@ const BurnPortal = ({ connection }) => {
             if (allMints.includes(mint)) {
               console.log('mint', mint);
 
-              // const tokenAddress = await Token.getAssociatedTokenAddress(
-              //   ASSOCIATED_TOKEN_PROGRAM_ID,
-              //   TOKEN_PROGRAM_ID,
-              //   new web3.PublicKey(mint),
-              //   wallet.publicKey
-              // );
-              // let tokenAddressBalance = await connection.getTokenAccountBalance(tokenAddress);
-              // console.log(tokenAddressBalance.value.amount);
               console.log("mint supply", new web3.PublicKey(mint));
               let tokenSupply = await connection.getTokenSupply(new web3.PublicKey(mint));
               console.log("supply", tokenSupply.value.uiAmount);
-
-              //CHECK IF the user is the current nft owner
-              // if(tokenAddressBalance.value.amount > 0){
-              // console.log("public key", wallet.publicKey.toString());
-              // console.log("public nft owner", myNFT.owner);
 
               //supply should not be zero
               if (tokenSupply.value.uiAmount > 0) {
@@ -221,7 +206,7 @@ const BurnPortal = ({ connection }) => {
         }
       }
     })();
-  }, [wallet]);
+  }, [wallet, connection, history]);
 
   useEffect(() => {
     SetNftInfo(cardInfo);
@@ -246,12 +231,11 @@ const BurnPortal = ({ connection }) => {
         let creatorIdoToken = "";
         let transaction = "";
 
-        console.log("noises in burn", count);
+        console.log("noises in burn", count, wallet.publicKey.toString());
 
         for (let i = 0; i < count.length; i++) {
-          let mint = new web3.PublicKey(count[i]);
+          let mint = new web3.PublicKey(count[i].mint);
 
-          // console.log("wallet.publicKey", wallet.publicKey.toString());
           creatorIdoToken = await Token.getAssociatedTokenAddress(
             ASSOCIATED_TOKEN_PROGRAM_ID,
             TOKEN_PROGRAM_ID,
@@ -279,6 +263,28 @@ const BurnPortal = ({ connection }) => {
         console.log(txnWithSigs);
         let txSigs = await provider.sendAll(txnWithSigs);
         console.log("burn: ", txSigs);
+
+        //set loading to true
+        setModalLoader(true)
+        setFinal(true);
+
+        //call the api
+        const embeds = []
+        count.forEach(card => {
+          const embed = {
+            "number": card.code,
+            "wallet": wallet.publicKey.toString(),
+            "remaining": 120,
+            "image": card.src
+          }
+
+          embeds.push(embed)
+        })
+
+        await axios.post(discordAPI, embeds)
+
+        //loading will be false here
+        setModalLoader(false)
 
         //MINT CODE
         /*
@@ -316,8 +322,6 @@ const BurnPortal = ({ connection }) => {
         console.log(status)
 
         */
-        setFinal(true);
-        // setLoading(status);
       }
     } catch (e) {
       console.log(e);
@@ -330,7 +334,6 @@ const BurnPortal = ({ connection }) => {
     }, 11000);
     return () => clearTimeout(timer);
   }, []);
-  const history = useHistory();
 
   function refreshPage() {
     history.push("/");
@@ -338,13 +341,9 @@ const BurnPortal = ({ connection }) => {
 
   }
 
-  /**
-   * Select 6 noises which you want to burn. BURN!!! Pass airdrops will start from 21st Dec NOTE: If you don’t have enough noises - buy here CAUTION: Keep atleast 0.1 sol in your wallet for transaction.
-   */
-
   return (
     <>
-      <div className='section-2new' style={{ marginBottom: "76px" }}>
+      <div className='section-2new' style={{ marginBottom: "76px", paddingTop: "5%" }}>
         <Row className='px-3 py-0'>
           <Col lg={3} className='p-0'></Col>
           <Col lg={6} className='p-0'>
@@ -364,7 +363,7 @@ const BurnPortal = ({ connection }) => {
               </p>
               <p style={{ marginBottom: "6%" }}>
                 CAUTION: <span style={{ color: "#050505", opacity: "0.7" }}>
-                  Keep atleast 0.1 sol in your wallet for transaction.
+                  Keep atleast 0.1 sol in your wallet for the gas. Ofcourse, it will be much less but just to be on the safer side!! :P
                 </span>
               </p>
             </div>
@@ -376,16 +375,27 @@ const BurnPortal = ({ connection }) => {
                 {connect ?
                   <Row className='mr-0' style={{ position: "relative" }}>
                     <CustomLoader close={close} marginTop={"4%"} />
+                    {nftInfo.length > 0 ? (
+                      <>
+                        {nftInfo.map((product, i) => (
 
-                    {nftInfo.map((product, i) => (
+                          <Col key={i} sm={12} lg={4} style={{ padding: '5px', display: "flex", justifyContent: "center", alignItems: "center" }} onClick={() => {
+                            setShow(!show);
+                          }}>
+                            <SelectCard product={product} onSelect={countfunc} shouldSelect={count.length} />
+                          </Col>
 
-                      <Col key={i} sm={12} lg={4} style={{ padding: '5px' }} onClick={() => {
-                        setShow(!show);
-                      }}>
-                        <SelectCard product={product} onSelect={countfunc} shouldSelect={count.length} />
-                      </Col>
+                        ))}
+                      </>
+                    ) : (
 
-                    ))}
+                      <div className="no-noises">
+                        <div className="icon-container">
+                          <CloseLogo />
+                        </div>
+                        <p>No noise found.</p>
+                      </div>
+                    )}
                   </Row>
                   //3 secs
                   :
@@ -410,7 +420,7 @@ const BurnPortal = ({ connection }) => {
           <Col lg={6} className='footer pt-1'>
             {connect ?
               <div style={{ display: "inline-block", width: "100%", padding: "10px 0 20px 0" }}>
-                <p style={{ float: "left", color: "black", marginTop: "10px" }}>{count.length} Noises selected</p>
+                <p style={{ float: "left", color: "black", marginTop: "10px" }}>{count.length} Noise(s) selected</p>
                 <div style={{ float: "right" }}>
                   <button
                     disabled={(count.length < 6 || count.length > 6) || isLoading}
@@ -422,7 +432,7 @@ const BurnPortal = ({ connection }) => {
                       icon={faFire}
                       style={{ width: "1rem", margin: "0 0.5rem 0 0" }}
                     />
-                    {isLoading ? 'Burning...' : 'Burn to Claim Pass!'}</button>
+                    {isLoading ? 'Burning...' : 'Burn Now!'}</button>
                 </div>
               </div>
               :
@@ -436,11 +446,11 @@ const BurnPortal = ({ connection }) => {
           setFinal(false);
           refreshPage()
         }}>
-        <Modal.Header closeButton className='custom'>
-          <Modal.Title className='modal-title'></Modal.Title>
-        </Modal.Header>
         <Modal.Body className='modal-body'>
-          <ModalSuccessContent />
+          {modalLoader ? (
+            <CustomLoader paddingTop={"16%"} />
+          ) : (<ModalSuccessContent setFinal={setFinal} />)
+          }
         </Modal.Body>
       </Modal>
     </>

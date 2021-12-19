@@ -107,6 +107,19 @@
 	-o-transform: translate(-50%, -50%);
 }
 
+.modal-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
+.close-modal-icon {
+	position: absolute;
+	top: 36px;
+	right: 30px;
+	cursor: pointer;
+}
 @media screen and (max-width: 812px) {
 	.mobile-owner {
 		visibility: visible;

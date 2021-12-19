@@ -2,14 +2,8 @@ import './App.css';
 
 import * as web3 from "@solana/web3.js";
 
-import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import { WalletAdapterNetwork, WalletNotConnectedError } from '@solana/wallet-adapter-base';
-import {
-  WalletDisconnectButton,
-  WalletModalProvider,
-  WalletMultiButton
-} from '@solana/wallet-adapter-react-ui';
 import {
   getPhantomWallet,
   getSolflareWallet,
@@ -19,19 +13,14 @@ import {
 import BurnPortal from './pages/burnPortal';
 import NewHome from './pages/newHome';
 import TopNav from './components/TopNav/TopNav';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import {
+  WalletModalProvider,
+} from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import { useMemo } from 'react';
 
 //FOR WALLET CONNECTION
-
-
-
-
-
-
-
-
-
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -64,7 +53,7 @@ function App() {
             <TopNav />
             <Switch>
               <Route exact path='/' render={() => <NewHome connection={connection} />} />
-              <Route exact path='/xyz-123' render={() => <BurnPortal connection={connection} />} />
+              <Route exact path='/burnPortal' render={() => <BurnPortal connection={connection} />} />
             </Switch>
           </WalletModalProvider>
         </WalletProvider>
