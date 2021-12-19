@@ -66,9 +66,9 @@ const NewHome = ({ connection }) => {
                     Burn 6 Noises to claim the NOISE PASS! Pass airdrops will start from 21st Dec
                   </p>
                   {/* <Button variant='secondary' className='btn-primary2 m-0 btn-block'> SOLD OUT ! </Button> */}
-                  {wallet.connected ? (<div className='outline-divnew'>Status - {itemsRedeemed}/{itemsAvailable} Passes Claimed!</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)}
-                  <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
-                  {/* <button className='disabled-btn'>Go to Burn Potal {">"} </button> */}
+                  {/* {wallet.connected ? (<div className='outline-divnew'>Status - {itemsRedeemed}/{itemsAvailable} Passes Claimed!</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)} */}
+                  {/* <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button> */}
+                  <button className='disabled-btn'>Go to Burn Potal {">"} </button>
                 </div>
               </div>
               <div className='gifWeb'>

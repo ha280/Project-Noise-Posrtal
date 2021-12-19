@@ -36,7 +36,7 @@ let count = [];
 let noises = [];
 let cardInfo = [];
 
-const CustomLoader = ({ close, marginTop, paddingTop = 0 }) => (
+const CustomLoader = ({ close, marginTop, showCloseIcon = false, paddingTop = 0, setFinal }) => (
   <div className="load" style={close ? { display: "none" } : { display: "block", marginTop, paddingTop }}>
     <Loader
       type="Oval"
@@ -46,6 +46,7 @@ const CustomLoader = ({ close, marginTop, paddingTop = 0 }) => (
       className="loader"
     />
     <p className='loader-desc'>This might take few seconds. Please wait...</p>
+    {showCloseIcon && <CloseLogo className='success-modal-close-icon' onClick={setFinal} />}
   </div>
 )
 
@@ -335,6 +336,11 @@ const BurnPortal = ({ connection }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  const onCloseModal = () => {
+    setFinal(false)
+    refreshPage()
+  }
+
   function refreshPage() {
     history.push("/");
     window.location.reload(false);
@@ -443,13 +449,12 @@ const BurnPortal = ({ connection }) => {
       </div>
       <Modal show={final} fullscreen='true'
         onHide={() => {
-          setFinal(false);
-          refreshPage()
+          onCloseModal()
         }}>
         <Modal.Body className='modal-body'>
           {modalLoader ? (
-            <CustomLoader paddingTop={"16%"} />
-          ) : (<ModalSuccessContent setFinal={setFinal} />)
+            <CustomLoader paddingTop={"16%"} showCloseIcon setFinal={onCloseModal} />
+          ) : (<ModalSuccessContent setFinal={onCloseModal} />)
           }
         </Modal.Body>
       </Modal>
