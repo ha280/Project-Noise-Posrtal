@@ -53,7 +53,7 @@ function App() {
             <TopNav />
             <Switch>
               <Route exact path='/' render={() => <NewHome connection={connection} />} />
-              <Route exact path='/xyz-123' render={() => <BurnPortal connection={connection} />} />
+              <Route exact path='/burnPortal' render={() => <BurnPortal connection={connection} />} />
             </Switch>
           </WalletModalProvider>
         </WalletProvider>
