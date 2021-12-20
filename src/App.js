@@ -33,7 +33,7 @@ function App() {
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   // const rpcHost = "https://explorer-api.devnet.solana.com";
-  const rpcHost = "https://dry-holy-paper.solana-mainnet.quiknode.pro/5d51cc47b9102310825d0b49b644592d2d2fb877/"; //TODO: need to update it with noise quicknode
+  const rpcHost = "https://bitter-summer-wave.solana-mainnet.quiknode.pro/966785bad8457941c4f993c3dfb023d35284efb2/"; //TODO: need to update it with noise quicknode
   const connection = new web3.Connection(rpcHost, "recent");
 
   console.log("connection", connection);
