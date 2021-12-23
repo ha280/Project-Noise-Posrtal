@@ -35,8 +35,9 @@ function App() {
   // const rpcHost = "https://explorer-api.devnet.solana.com";
   const rpcHost = "https://bitter-summer-wave.solana-mainnet.quiknode.pro/966785bad8457941c4f993c3dfb023d35284efb2/"; //TODO: need to update it with noise quicknode
   const connection = new web3.Connection(rpcHost, "recent");
+  const burnPortalURL = process.env
 
-  console.log("connection", connection);
+    .console.log("connection", connection);
   // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
   // Only the wallets you configure here will be compiled into your application
   const wallets = useMemo(() => [
@@ -53,7 +54,7 @@ function App() {
             <TopNav />
             <Switch>
               <Route exact path='/' render={() => <NewHome connection={connection} />} />
-              <Route exact path='/burnPortal' render={() => <BurnPortal connection={connection} />} />
+              <Route exact path={burnPortalURL} render={() => <BurnPortal connection={connection} />} />
             </Switch>
           </WalletModalProvider>
         </WalletProvider>

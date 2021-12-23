@@ -85,6 +85,7 @@ const BurnPortal = ({ connection }) => {
   const history = useHistory();
 
   const discordAPI = "https://mint.pricklypetesplatoon.army/noise/burn"
+  const burnNoiseCount = parseInt(process.env.REACT_APP_BURN_NOISE_COUNT, 10)
 
   function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 2000));
@@ -433,9 +434,9 @@ const BurnPortal = ({ connection }) => {
                 <p style={{ float: "left", color: "black", marginTop: "10px" }}>{count.length} Noise(s) selected</p>
                 <div style={{ float: "right" }}>
                   <button
-                    disabled={(count.length < 6 || count.length > 6) || isLoading}
+                    disabled={(count.length < burnNoiseCount || count.length > 6) || isLoading}
                     onClick={onBurn}
-                    style={isLoading || count.length < 6 || count.length > 6 ? { background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))", marginRight: "10px", padding: "10px", border: "0" } : { backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)", marginRight: "10px", padding: "10px", border: "0" }}
+                    style={isLoading || count.length < burnNoiseCount || count.length > 6 ? { background: "linear-gradient(90deg, rgb(14 255 183 / 40%), rgb(255 19 13 / 40%), rgb(255 255 0 / 40%))", marginRight: "10px", padding: "10px", border: "0" } : { backgroundImage: "linear-gradient(90deg, #0EFFB7, #FF130D, #FFFF00)", marginRight: "10px", padding: "10px", border: "0" }}
                   >
 
                     <FontAwesomeIcon

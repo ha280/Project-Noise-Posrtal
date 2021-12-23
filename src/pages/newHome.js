@@ -16,6 +16,7 @@ const NewHome = ({ connection }) => {
   const [itemsAvailable, setItemsAvailable] = useState();
   const [itemsRedeemed, setItemsRedeemed] = useState();
   const history = useHistory();
+  const shouldDisbleBtn = process.env.REACT_APP_DISABLE_BURNPORTAL;
 
   useEffect(() => {
     (async () => {
@@ -67,8 +68,11 @@ const NewHome = ({ connection }) => {
                   </p>
 
                   {/* {wallet.connected ? (<div className='outline-divnew'>Status - {itemsRedeemed}/{itemsAvailable} Passes Claimed!</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)} */}
-                  <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
-                  {/* <button className='disabled-btn'>Go to Burn Potal {">"} </button> */}
+                  {shouldDisbleBtn === "true" ? (
+                    <button className='disabled-btn'>Go to Burn Potal {">"} </button>
+                  ) : (
+                    <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
+                  )}
                 </div>
               </div>
               <div className='gifWeb'>
