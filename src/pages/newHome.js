@@ -71,7 +71,9 @@ const NewHome = ({ connection }) => {
                   {shouldDisbleBtn === "true" ? (
                     <button className='disabled-btn'>Go to Burn Potal {">"} </button>
                   ) : (
-                    <Button href="/burnPortal" className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Go to Burn Portal </Button>
+                    <Button onClick={() => {
+                      window.open("https://magiceden.io/marketplace/noise_pass ")
+                    }} className='text-center cardDivLarge text-white p-2' style={{ width: "20rem" }}>Buy Now! </Button>
                   )}
                 </div>
               </div>
