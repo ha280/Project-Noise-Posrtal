@@ -64,7 +64,7 @@ const NewHome = ({ connection }) => {
                 <div className='mint-container'>
                   <h1>Your gateway to a Premium Membership!</h1>
                   <p>
-                    Burn 6 Noises to claim the NOISE PASS! Pass airdrops will start from 21st Dec
+                    All passes have been claimed! You can buy on secondary marketplace.
                   </p>
 
                   {/* {wallet.connected ? (<div className='outline-divnew'>Status - {itemsRedeemed}/{itemsAvailable} Passes Claimed!</div>) : (<div className='outline-divnew'>Status - connect wallet</div>)} */}
